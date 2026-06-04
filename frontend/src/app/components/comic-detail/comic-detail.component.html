@@ -1,0 +1,64 @@
+<div *ngIf="isLoading" class="loader-container">
+  <div class="spinner"></div>
+</div>
+
+<div *ngIf="!isLoading && comic" class="detail-container">
+  <!-- Back button -->
+  <a routerLink="/" class="back-link">← Quay lại trang chủ</a>
+
+  <!-- Comic Info Header -->
+  <div class="comic-header card-glass">
+    <div class="cover-wrapper">
+      <img [src]="comic.coverUrl" [alt]="comic.title" class="detail-cover">
+    </div>
+    <div class="header-info">
+      <span class="source-tag">{{ comic.source }}</span>
+      <h1 class="comic-title">{{ comic.title }}</h1>
+      <p class="comic-meta"><strong>Tác giả:</strong> {{ comic.author }}</p>
+      <p class="comic-meta"><strong>Trạng thái:</strong> {{ comic.status }}</p>
+      
+      <div class="tags-container">
+        <span *ngFor="let tag of comic.tags" class="tag-badge">{{ tag }}</span>
+      </div>
+
+      <div class="action-buttons">
+        <!-- Read Button -->
+        <a *ngIf="chapters.length > 0" 
+           [routerLink]="['/read', comic.id, lastReadProgress ? lastReadProgress.chapterId : chapters[chapters.length - 1].id]" 
+           class="btn-primary">
+          {{ lastReadProgress ? 'Đọc tiếp: ' + lastReadProgress.chapterTitle : 'Đọc chương đầu' }}
+        </a>
+
+        <!-- Bookmark Button -->
+        <button (click)="toggleBookmark()" class="btn-secondary" [class.active]="isBookmarked">
+          <span>{{ isBookmarked ? '❤️ Đã theo dõi' : '🤍 Theo dõi' }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Description Section -->
+  <div class="detail-section card-glass">
+    <h2 class="section-title">Tóm tắt nội dung</h2>
+    <p class="comic-description">{{ comic.description }}</p>
+  </div>
+
+  <!-- Chapters Section -->
+  <div class="detail-section card-glass">
+    <h2 class="section-title">Danh sách chương ({{ chapters.length }})</h2>
+    
+    <div *ngIf="chapters.length === 0" class="empty-chapters">
+      <p>Không có chương nào khả dụng.</p>
+    </div>
+
+    <div *ngIf="chapters.length > 0" class="chapters-list">
+      <a *ngFor="let chapter of chapters" 
+         [routerLink]="['/read', comic.id, chapter.id]" 
+         class="chapter-row"
+         [class.last-read]="lastReadProgress?.chapterId === chapter.id">
+        <span class="chapter-title">{{ chapter.title }}</span>
+        <span *ngIf="lastReadProgress?.chapterId === chapter.id" class="read-badge">Đang đọc dở</span>
+      </a>
+    </div>
+  </div>
+</div>

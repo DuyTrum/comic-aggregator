@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="240" fill="#4CAF50" opacity="0.2"/>
+  
+  <!-- Dinosaur body -->
+  <ellipse cx="256" cy="320" rx="140" ry="120" fill="#66BB6A"/>
+  
+  <!-- Dinosaur head -->
+  <circle cx="256" cy="200" r="90" fill="#66BB6A"/>
+  
+  <!-- Spikes on back -->
+  <path d="M 180 280 L 170 240 L 200 270 Z" fill="#388E3C"/>
+  <path d="M 220 260 L 210 210 L 240 250 Z" fill="#388E3C"/>
+  <path d="M 270 250 L 260 200 L 290 240 Z" fill="#388E3C"/>
+  <path d="M 310 260 L 300 210 L 330 250 Z" fill="#388E3C"/>
+  <path d="M 350 280 L 340 240 L 370 270 Z" fill="#388E3C"/>
+  
+  <!-- Eyes -->
+  <circle cx="230" cy="185" r="18" fill="white"/>
+  <circle cx="282" cy="185" r="18" fill="white"/>
+  <circle cx="235" cy="185" r="10" fill="#2C3E50"/>
+  <circle cx="287" cy="185" r="10" fill="#2C3E50"/>
+  
+  <!-- Eye shine -->
+  <circle cx="238" cy="180" r="4" fill="white"/>
+  <circle cx="290" cy="180" r="4" fill="white"/>
+  
+  <!-- Smile -->
+  <path d="M 220 215 Q 256 235 292 215" stroke="#388E3C" stroke-width="6" fill="none" stroke-linecap="round"/>
+  
+  <!-- Nose -->
+  <ellipse cx="235" cy="205" rx="4" ry="6" fill="#388E3C"/>
+  <ellipse cx="277" cy="205" rx="4" ry="6" fill="#388E3C"/>
+  
+  <!-- Tail -->
+  <ellipse cx="380" cy="340" rx="50" ry="30" fill="#66BB6A" transform="rotate(-20 380 340)"/>
+  <ellipse cx="420" cy="350" rx="35" ry="20" fill="#66BB6A" transform="rotate(-30 420 350)"/>
+  
+  <!-- Legs -->
+  <ellipse cx="200" cy="420" rx="35" ry="45" fill="#66BB6A"/>
+  <ellipse cx="280" cy="430" rx="35" ry="45" fill="#66BB6A"/>
+  
+  <!-- Arms -->
+  <ellipse cx="180" cy="290" rx="20" ry="40" fill="#66BB6A" transform="rotate(-30 180 290)"/>
+  <ellipse cx="332" cy="290" rx="20" ry="40" fill="#66BB6A" transform="rotate(30 332 290)"/>
+  
+  <!-- Feet claws -->
+  <path d="M 190 460 L 185 470 M 200 460 L 200 470 M 210 460 L 215 470" stroke="#388E3C" stroke-width="4" stroke-linecap="round"/>
+  <path d="M 270 470 L 265 480 M 280 470 L 280 480 M 290 470 L 295 480" stroke="#388E3C" stroke-width="4" stroke-linecap="round"/>
+  
+  <!-- Belly spot -->
+  <ellipse cx="256" cy="350" rx="60" ry="50" fill="#81C784" opacity="0.6"/>
+</svg>

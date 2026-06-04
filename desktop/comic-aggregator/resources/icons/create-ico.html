@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Create Windows ICO</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 { color: #4CAF50; }
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .preview-item {
+            text-align: center;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+        canvas {
+            border: 2px solid #ddd;
+            background: white;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            margin: 20px 0;
+        }
+        button:hover { background: #45a049; }
+        .warning {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #ffc107;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🦕 Windows ICO Generator</h1>
+        
+        <div class="preview-grid">
+            <div class="preview-item">
+                <h3>16x16</h3>
+                <canvas id="c16" width="16" height="16"></canvas>
+            </div>
+            <div class="preview-item">
+                <h3>32x32</h3>
+                <canvas id="c32" width="32" height="32"></canvas>
+            </div>
+            <div class="preview-item">
+                <h3>48x48</h3>
+                <canvas id="c48" width="48" height="48"></canvas>
+            </div>
+            <div class="preview-item">
+                <h3>256x256</h3>
+                <canvas id="c256" width="128" height="128"></canvas>
+                <small>(Preview at 128px)</small>
+            </div>
+        </div>
+
+        <div class="warning">
+            <strong>⚠️ Windows ICO Limitation:</strong><br>
+            HTML5 Canvas không thể tạo file .ICO trực tiếp. Bạn cần dùng online tool:
+            <ol>
+                <li>Download appIcon.png (256x256) bên dưới</li>
+                <li>Vào: <a href="https://convertico.com/" target="_blank">https://convertico.com/</a></li>
+                <li>Upload appIcon.png</li>
+                <li>Download file .ICO</li>
+                <li>Đặt tên: <code>appIcon.ico</code></li>
+            </ol>
+        </div>
+
+        <button onclick="downloadHighResPNG()">📥 Download High-Res PNG (512x512)</button>
+        
+        <p style="text-align: center; color: #666;">
+            Sau khi có file ICO, copy vào <code>resources/icons/</code>
+        </p>
+    </div>
+
+    <script>
+        const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <circle cx="256" cy="256" r="240" fill="#4CAF50" opacity="0.2"/>
+  <ellipse cx="256" cy="320" rx="140" ry="120" fill="#66BB6A"/>
+  <circle cx="256" cy="200" r="90" fill="#66BB6A"/>
+  <path d="M 180 280 L 170 240 L 200 270 Z" fill="#388E3C"/>
+  <path d="M 220 260 L 210 210 L 240 250 Z" fill="#388E3C"/>
+  <path d="M 270 250 L 260 200 L 290 240 Z" fill="#388E3C"/>
+  <path d="M 310 260 L 300 210 L 330 250 Z" fill="#388E3C"/>
+  <path d="M 350 280 L 340 240 L 370 270 Z" fill="#388E3C"/>
+  <circle cx="230" cy="185" r="18" fill="white"/>
+  <circle cx="282" cy="185" r="18" fill="white"/>
+  <circle cx="235" cy="185" r="10" fill="#2C3E50"/>
+  <circle cx="287" cy="185" r="10" fill="#2C3E50"/>
+  <circle cx="238" cy="180" r="4" fill="white"/>
+  <circle cx="290" cy="180" r="4" fill="white"/>
+  <path d="M 220 215 Q 256 235 292 215" stroke="#388E3C" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <ellipse cx="235" cy="205" rx="4" ry="6" fill="#388E3C"/>
+  <ellipse cx="277" cy="205" rx="4" ry="6" fill="#388E3C"/>
+  <ellipse cx="380" cy="340" rx="50" ry="30" fill="#66BB6A" transform="rotate(-20 380 340)"/>
+  <ellipse cx="420" cy="350" rx="35" ry="20" fill="#66BB6A" transform="rotate(-30 420 350)"/>
+  <ellipse cx="200" cy="420" rx="35" ry="45" fill="#66BB6A"/>
+  <ellipse cx="280" cy="430" rx="35" ry="45" fill="#66BB6A"/>
+  <ellipse cx="180" cy="290" rx="20" ry="40" fill="#66BB6A" transform="rotate(-30 180 290)"/>
+  <ellipse cx="332" cy="290" rx="20" ry="40" fill="#66BB6A" transform="rotate(30 332 290)"/>
+  <path d="M 190 460 L 185 470 M 200 460 L 200 470 M 210 460 L 215 470" stroke="#388E3C" stroke-width="4" stroke-linecap="round"/>
+  <path d="M 270 470 L 265 480 M 280 470 L 280 480 M 290 470 L 295 480" stroke="#388E3C" stroke-width="4" stroke-linecap="round"/>
+  <ellipse cx="256" cy="350" rx="60" ry="50" fill="#81C784" opacity="0.6"/>
+</svg>`;
+
+        const blob = new Blob([svg], { type: 'image/svg+xml' });
+        const url = URL.createObjectURL(blob);
+        const img = new Image();
+        
+        img.onload = function() {
+            // Render all sizes
+            [16, 32, 48].forEach(size => {
+                const canvas = document.getElementById(`c${size}`);
+                const ctx = canvas.getContext('2d');
+                ctx.imageSmoothingEnabled = true;
+                ctx.imageSmoothingQuality = 'high';
+                ctx.drawImage(img, 0, 0, size, size);
+            });
+            
+            // 256 preview at 128
+            const c256 = document.getElementById('c256');
+            const ctx256 = c256.getContext('2d');
+            ctx256.imageSmoothingEnabled = true;
+            ctx256.imageSmoothingQuality = 'high';
+            ctx256.drawImage(img, 0, 0, 128, 128);
+        };
+        
+        img.src = url;
+
+        function downloadHighResPNG() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 512;
+            canvas.height = 512;
+            const ctx = canvas.getContext('2d');
+            
+            const tempImg = new Image();
+            tempImg.onload = function() {
+                ctx.imageSmoothingEnabled = true;
+                ctx.imageSmoothingQuality = 'high';
+                ctx.drawImage(tempImg, 0, 0, 512, 512);
+                
+                canvas.toBlob(blob => {
+                    const link = document.createElement('a');
+                    link.download = 'appIcon-512.png';
+                    link.href = URL.createObjectURL(blob);
+                    link.click();
+                });
+            };
+            tempImg.src = url;
+        }
+    </script>
+</body>
+</html>

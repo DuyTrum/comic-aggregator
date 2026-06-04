@@ -1,0 +1,13 @@
+{
+  "name": "comic-aggregator-desktop",
+  "version": "1.0.0",
+  "description": "NeutralinoJS desktop wrapper for ComicAggregator",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx neu run",
+    "build": "npx neu build"
+  },
+  "devDependencies": {
+    "@neutralinojs/neu": "^11.7.1"
+  }
+}

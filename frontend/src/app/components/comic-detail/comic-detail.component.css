@@ -1,0 +1,214 @@
+.detail-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.back-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: var(--transition);
+  align-self: flex-start;
+}
+
+.back-link:hover {
+  color: var(--accent);
+}
+
+/* Comic Header */
+.comic-header {
+  display: flex;
+  gap: 32px;
+  padding: 32px;
+  align-items: flex-start;
+}
+
+@media (max-width: 768px) {
+  .comic-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+.cover-wrapper {
+  width: 220px;
+  flex-shrink: 0;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-premium);
+  border: 1px solid var(--border);
+}
+
+.detail-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex-grow: 1;
+}
+
+.source-tag {
+  align-self: flex-start;
+  background-color: var(--accent-glow);
+  color: var(--accent);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  padding: 4px 10px;
+  border-radius: var(--radius-md);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .source-tag {
+    align-self: center;
+  }
+}
+
+.comic-title {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.comic-meta {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0;
+}
+
+@media (max-width: 768px) {
+  .tags-container {
+    justify-content: center;
+  }
+}
+
+.tag-badge {
+  background-color: var(--bg-tertiary);
+  color: var(--text-secondary);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+@media (max-width: 768px) {
+  .action-buttons {
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+.btn-secondary.active {
+  background-color: rgba(239, 68, 68, 0.1);
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+/* Detail Sections */
+.detail-section {
+  padding: 32px;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: var(--text-primary);
+  border-left: 4px solid var(--accent);
+  padding-left: 12px;
+}
+
+.comic-description {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  font-size: 0.975rem;
+}
+
+/* Chapters List */
+.chapters-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.chapter-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: var(--transition);
+  background-color: var(--bg-primary);
+}
+
+.chapter-row:hover {
+  background-color: var(--bg-tertiary);
+  border-color: var(--accent);
+  transform: translateX(4px);
+}
+
+.chapter-row.last-read {
+  border-color: var(--accent);
+  background-color: var(--accent-glow);
+}
+
+.read-badge {
+  font-size: 0.75rem;
+  background-color: var(--accent);
+  color: var(--text-primary);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.empty-chapters {
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 20px;
+}
+
+/* Loader & Spinner */
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - var(--header-height));
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

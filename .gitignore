@@ -1,0 +1,32 @@
+# IDEs & System
+.vscode/
+.idea/
+.gemini/
+Thumbs.db
+Desktop.ini
+
+# Node / Angular
+node_modules/
+dist/
+.angular/
+
+# Java / Gradle
+.gradle/
+build/
+backend/build/
+backend/.gradle/
+*.class
+*.jar
+*.war
+
+# NeutralinoJS built assets
+desktop/comic-aggregator/resources.neu
+desktop/comic-aggregator/resources/index.html
+desktop/comic-aggregator/resources/*.js
+desktop/comic-aggregator/resources/*.css
+desktop/comic-aggregator/resources/*.ico
+desktop/comic-aggregator/resources/assets/
+
+# Cache & Logs
+backend/image_cache/
+*.log

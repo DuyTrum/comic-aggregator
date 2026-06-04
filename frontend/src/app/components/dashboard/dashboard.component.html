@@ -1,0 +1,96 @@
+<div class="dashboard-container">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1 class="hero-title">Đọc Truyện Tranh Đa Nguồn Không Giới Hạn</h1>
+      <p class="hero-subtitle">Kết hợp tất cả các nguồn truyện yêu thích của bạn về một nơi duy nhất. Nhanh hơn, mượt mà hơn và hoàn toàn đồng bộ.</p>
+    </div>
+  </section>
+
+  <!-- Extension & Search Bar Section -->
+  <div class="dashboard-controls card-glass">
+    <div class="control-row">
+      <!-- Source Dropdown Selector -->
+      <div class="source-selector-wrapper">
+        <label for="sourceSelect" class="control-label">Nguồn truyện:</label>
+        <select id="sourceSelect" [(ngModel)]="selectedSource" (ngModelChange)="onSourceChangeNgModel()" class="select-field">
+          <option *ngFor="let ext of extensions" [value]="ext.name">
+            {{ ext.name }} (v{{ ext.version || '1.0.0' }})
+          </option>
+        </select>
+      </div>
+
+      <!-- Extension Panel Toggle Button -->
+      <button (click)="toggleExtensionPanel()" class="btn-secondary ext-manager-btn">
+        <span>⚙️</span> {{ showExtensionPanel ? 'Đóng quản lý' : 'Quản lý Extension' }}
+      </button>
+    </div>
+
+    <!-- Collapsible Extension Management Panel -->
+    <div *ngIf="showExtensionPanel" class="extension-panel card-glass">
+      <h3 class="panel-title">Quản lý Scraper Extensions</h3>
+      
+      <!-- Load New Extension from URL Form -->
+      <div class="add-ext-form">
+        <input type="text" [(ngModel)]="newExtensionUrl" class="input-field ext-url-input" placeholder="Nhập link file JS extension (ví dụ: https://raw.githubusercontent.com/.../source.js)">
+        <button (click)="addExtension()" [disabled]="isAddingExtension || !newExtensionUrl.trim()" class="btn-primary">
+          {{ isAddingExtension ? 'Đang tải...' : 'Tải Extension' }}
+        </button>
+      </div>
+      <p *ngIf="extensionError" class="ext-error-msg">{{ extensionError }}</p>
+      
+      <!-- List of Loaded Extensions -->
+      <div class="loaded-exts-list">
+        <h4 class="sub-panel-title">Các nguồn hiện tại:</h4>
+        <div class="ext-items-grid">
+          <div *ngFor="let ext of extensions" class="ext-item card-glass">
+            <div class="ext-meta">
+              <span class="ext-name">{{ ext.name }}</span>
+              <span class="ext-ver">Phiên bản: {{ ext.version || '1.0.0' }}</span>
+            </div>
+            <button (click)="deleteExtension(ext)" *ngIf="ext.name !== 'MangaDex'" class="btn-danger-sm">Xóa</button>
+            <span *ngIf="ext.name === 'MangaDex'" class="default-badge">Mặc định</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search Form -->
+    <form (ngSubmit)="onSearch()" class="search-form">
+      <input type="text" [(ngModel)]="searchQuery" name="search" class="input-field search-input" placeholder="Tìm kiếm truyện trong nguồn {{ selectedSource }}...">
+      <button type="submit" class="btn-primary">
+        <span>🔍</span> Tìm kiếm
+      </button>
+    </form>
+  </div>
+
+  <!-- Comic List Grid -->
+  <div class="comics-section">
+    <h2 class="section-title">Danh sách truyện đề cử</h2>
+
+    <div *ngIf="isLoading" class="loader-container">
+      <div class="spinner"></div>
+    </div>
+
+    <div *ngIf="!isLoading && comics.length === 0" class="empty-state">
+      <p>Không tìm thấy truyện tranh nào phù hợp từ nguồn {{ selectedSource }}.</p>
+    </div>
+
+    <div *ngIf="!isLoading && comics.length > 0" class="comics-grid">
+      <div *ngFor="let comic of comics" class="comic-card card-glass" [routerLink]="['/comic', comic.id]">
+        <div class="cover-wrapper">
+          <img [src]="comic.coverUrl" [alt]="comic.title" class="comic-cover" loading="lazy">
+          <span class="source-badge">{{ comic.source }}</span>
+        </div>
+        <div class="comic-info">
+          <h3 class="comic-title">{{ comic.title }}</h3>
+          <p class="comic-author">Tác giả: {{ comic.author }}</p>
+          <div class="tags-container">
+            <span *ngFor="let tag of comic.tags" class="tag-badge">{{ tag }}</span>
+          </div>
+          <span class="status-badge" [class.completed]="comic.status === 'Đã hoàn thành'">{{ comic.status }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

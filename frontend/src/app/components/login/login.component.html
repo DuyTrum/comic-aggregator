@@ -1,0 +1,30 @@
+<div class="auth-wrapper">
+  <div class="auth-card card-glass">
+    <h1 class="auth-title">Chào mừng trở lại</h1>
+    <p class="auth-subtitle">Đăng nhập tài khoản của bạn để đồng bộ lịch sử đọc</p>
+
+    <div *ngIf="errorMsg" class="error-alert">
+      {{ errorMsg }}
+    </div>
+
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="auth-form">
+      <div class="form-group">
+        <label for="username" class="form-label">Tên đăng nhập</label>
+        <input type="text" id="username" name="username" [(ngModel)]="username" required class="input-field" placeholder="Nhập tên đăng nhập...">
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="form-label">Mật khẩu</label>
+        <input type="password" id="password" name="password" [(ngModel)]="password" required class="input-field" placeholder="Nhập mật khẩu...">
+      </div>
+
+      <button type="submit" [disabled]="!loginForm.form.valid || isLoading" class="btn-primary auth-btn">
+        {{ isLoading ? 'Đang xử lý...' : 'Đăng nhập' }}
+      </button>
+    </form>
+
+    <p class="auth-footer">
+      Chưa có tài khoản? <a routerLink="/register" class="auth-link">Đăng ký ngay</a>
+    </p>
+  </div>
+</div>

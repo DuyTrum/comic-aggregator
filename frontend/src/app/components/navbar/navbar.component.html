@@ -1,0 +1,26 @@
+<header *ngIf="!isReaderPage()" class="navbar-container">
+  <div class="nav-content">
+    <a routerLink="/" class="logo-link">
+      <span class="logo-icon">⚡</span>
+      <span class="logo-text">Comic<span class="highlight">Aggregator</span></span>
+    </a>
+
+    <nav class="nav-links">
+      <a routerLink="/" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Khám phá</a>
+      <a *ngIf="authService.isAuthenticated()" routerLink="/library" class="nav-link" routerLinkActive="active">Thư viện</a>
+      <a routerLink="/history" class="nav-link" routerLinkActive="active">📚 Lịch sử</a>
+      <a *ngIf="authService.isAdmin()" routerLink="/admin" class="nav-link admin-link" routerLinkActive="active">⚙️ Quản trị</a>
+    </nav>
+
+    <div class="nav-actions">
+      <ng-container *ngIf="authService.isAuthenticated(); else guestTpl">
+        <span class="user-greeting">Hi, <strong>{{ authService.currentUser()?.username }}</strong></span>
+        <button (click)="logout()" class="btn-secondary">Đăng xuất</button>
+      </ng-container>
+      <ng-template #guestTpl>
+        <a routerLink="/login" class="btn-secondary">Đăng nhập</a>
+        <a routerLink="/register" class="btn-primary">Đăng ký</a>
+      </ng-template>
+    </div>
+  </div>
+</header>

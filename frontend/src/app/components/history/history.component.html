@@ -1,0 +1,51 @@
+<div class="history-container">
+  <div class="history-header">
+    <h1>📚 Lịch Sử Đọc Truyện</h1>
+    <button 
+      *ngIf="history.length > 0" 
+      class="clear-btn" 
+      (click)="clearAll()">
+      🗑️ Xóa Tất Cả
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    <div class="spinner"></div>
+    <p>Đang tải lịch sử...</p>
+  </div>
+
+  <div *ngIf="!loading && history.length === 0" class="empty-state">
+    <div class="empty-icon">📖</div>
+    <h2>Chưa có lịch sử đọc truyện</h2>
+    <p>Bắt đầu đọc truyện để xem lịch sử tại đây</p>
+    <button class="primary-btn" routerLink="/dashboard">Khám Phá Truyện</button>
+  </div>
+
+  <div *ngIf="!loading && history.length > 0" class="history-grid">
+    <div *ngFor="let item of history" class="history-card">
+      <div class="card-image" (click)="goToDetail(item)">
+        <img [src]="item.comicCover" [alt]="item.comicTitle" />
+        <div class="overlay">
+          <span class="source-badge">{{ item.source }}</span>
+        </div>
+      </div>
+      
+      <div class="card-content">
+        <h3 (click)="goToDetail(item)" class="comic-title">{{ item.comicTitle }}</h3>
+        <p class="chapter-info">
+          <span class="chapter-badge">{{ item.lastChapterTitle }}</span>
+        </p>
+        <p class="read-time">{{ formatDate(item.lastReadAt) }}</p>
+        
+        <div class="card-actions">
+          <button class="continue-btn" (click)="continueReading(item)">
+            ▶️ Đọc Tiếp
+          </button>
+          <button class="delete-btn" (click)="deleteItem(item)" title="Xóa">
+            🗑️
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

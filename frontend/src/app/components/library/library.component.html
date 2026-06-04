@@ -1,0 +1,26 @@
+<div class="library-container">
+  <h1 class="library-title">Thư viện của tôi</h1>
+
+  <div *ngIf="isLoading" class="loader-container">
+    <div class="spinner"></div>
+  </div>
+
+  <div *ngIf="!isLoading && bookmarks.length === 0" class="empty-state">
+    <span class="empty-icon">📚</span>
+    <p>Thư viện của bạn đang trống.</p>
+    <a routerLink="/" class="btn-primary">Khám phá truyện ngay</a>
+  </div>
+
+  <div *ngIf="!isLoading && bookmarks.length > 0" class="comics-grid">
+    <div *ngFor="let item of bookmarks" class="comic-card card-glass" [routerLink]="['/comic', item.comicIdOnSource]">
+      <div class="cover-wrapper">
+        <img [src]="item.coverUrl" [alt]="item.comicTitle" class="comic-cover" loading="lazy">
+        <span class="source-badge">{{ item.sourceName }}</span>
+      </div>
+      <div class="comic-info">
+        <h3 class="comic-title">{{ item.comicTitle }}</h3>
+        <p class="comic-date">Đã lưu vào thư viện</p>
+      </div>
+    </div>
+  </div>
+</div>

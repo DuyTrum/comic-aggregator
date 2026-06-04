@@ -1,0 +1,232 @@
+<div class="admin-container">
+  <div class="admin-header card-glass">
+    <h2>⚙️ Bảng Điều Khiển Quản Trị</h2>
+    <p>Quản lý người dùng, cài đặt nguồn thu thập truyện và chỉnh sửa code cào trực tuyến.</p>
+  </div>
+
+  <div class="admin-tabs-nav card-glass">
+    <button 
+      (click)="switchTab('users')" 
+      [class.active]="activeTab === 'users'" 
+      class="tab-btn">
+      👥 Người Dùng
+    </button>
+    <button 
+      (click)="switchTab('extensions')" 
+      [class.active]="activeTab === 'extensions'" 
+      class="tab-btn">
+      🔌 Danh Sách Nguồn
+    </button>
+    <button 
+      (click)="switchTab('editor')" 
+      [class.active]="activeTab === 'editor'" 
+      class="tab-btn">
+      📝 Sửa Code Scraper
+    </button>
+    <button 
+      (click)="switchTab('cache')" 
+      [class.active]="activeTab === 'cache'" 
+      class="tab-btn">
+      💾 Bộ Nhớ Đệm (Cache)
+    </button>
+  </div>
+
+  <!-- USER MANAGEMENT TAB -->
+  <div *ngIf="activeTab === 'users'" class="admin-panel card-glass">
+    <h3>👥 Quản Lý Người Dùng</h3>
+    
+    <div *ngIf="userMessage" class="alert alert-success">{{ userMessage }}</div>
+    <div *ngIf="userError" class="alert alert-danger">{{ userError }}</div>
+
+    <div *ngIf="isLoadingUsers" class="loading-state">
+      <div class="spinner"></div>
+      <p>Đang tải danh sách thành viên...</p>
+    </div>
+
+    <div *ngIf="!isLoadingUsers" class="table-container">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Tên tài khoản</th>
+            <th>Email</th>
+            <th>Quyền hạn</th>
+            <th>Ngày tạo</th>
+            <th>Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let u of users">
+            <td class="username-cell">{{ u.username }}</td>
+            <td>{{ u.email }}</td>
+            <td>
+              <span [class.badge-admin]="u.role === 'ADMIN'" [class.badge-user]="u.role === 'USER'" class="role-badge">
+                {{ u.role }}
+              </span>
+            </td>
+            <td>{{ u.createdAt | date:'dd/MM/yyyy HH:mm' }}</td>
+            <td class="actions-cell">
+              <button 
+                *ngIf="u.username !== 'admin'"
+                (click)="toggleUserRole(u)" 
+                class="btn-action btn-role">
+                {{ u.role === 'ADMIN' ? 'Demote' : 'Promote' }}
+              </button>
+              <button 
+                *ngIf="u.username !== 'admin'"
+                (click)="deleteUser(u)" 
+                class="btn-action btn-delete">
+                Xóa
+              </button>
+              <span *ngIf="u.username === 'admin'" class="text-muted">Hệ thống</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- EXTENSIONS TAB -->
+  <div *ngIf="activeTab === 'extensions'" class="admin-panel card-glass">
+    <h3>🔌 Cài Đặt Nguồn Scraper</h3>
+    
+    <div class="add-extension-box">
+      <h4>Tải thêm Extension từ URL</h4>
+      <div class="input-group">
+        <input 
+          type="text" 
+          [(ngModel)]="newExtensionUrl" 
+          placeholder="Nhập link raw script JS (ví dụ: https://raw.githubusercontent.com/...)" 
+          class="input-field" />
+        <button 
+          (click)="addExtension()" 
+          [disabled]="isAddingExtension || !newExtensionUrl.trim()" 
+          class="btn-primary">
+          <span *ngIf="isAddingExtension" class="spinner-small"></span>
+          Tải Nguồn
+        </button>
+      </div>
+      <div *ngIf="extensionError" class="alert alert-danger mt-2">{{ extensionError }}</div>
+    </div>
+
+    <div class="table-container mt-4">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Tên nguồn</th>
+            <th>Phiên bản</th>
+            <th>Đường dẫn nguồn</th>
+            <th>Ngày cập nhật</th>
+            <th>Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ext of extensions">
+            <td class="ext-name-cell">🔌 {{ ext.name }}</td>
+            <td>v{{ ext.version }}</td>
+            <td class="url-cell" title="{{ ext.sourceUrl }}">{{ ext.sourceUrl }}</td>
+            <td>{{ ext.updatedAt | date:'dd/MM/yyyy HH:mm' }}</td>
+            <td>
+              <button 
+                (click)="deleteExtension(ext)" 
+                [disabled]="ext.name === 'MangaDex'"
+                class="btn-action btn-delete">
+                Xóa
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- EDITOR TAB -->
+  <div *ngIf="activeTab === 'editor'" class="admin-panel card-glass">
+    <h3>📝 Trình Sửa Code Scraper Trực Tuyến</h3>
+    
+    <div class="editor-controls">
+      <div class="control-group">
+        <label for="extSelect">Chọn Extension cần chỉnh sửa:</label>
+        <select 
+          id="extSelect" 
+          [(ngModel)]="selectedExtensionId" 
+          (change)="onExtensionSelect()" 
+          class="select-field">
+          <option *ngFor="let ext of extensions" [value]="ext.id">{{ ext.name }} (v{{ ext.version }})</option>
+        </select>
+      </div>
+
+      <button 
+        (click)="saveExtensionCode()" 
+        [disabled]="isSavingCode || !selectedExtensionId" 
+        class="btn-primary btn-save">
+        <span *ngIf="isSavingCode" class="spinner-small"></span>
+        💾 Lưu Mã Nguồn
+      </button>
+    </div>
+
+    <div *ngIf="editorMessage" class="alert alert-success mt-2">{{ editorMessage }}</div>
+    <div *ngIf="editorError" class="alert alert-danger mt-2">{{ editorError }}</div>
+
+    <div class="warning-box">
+      ⚠️ <strong>Cảnh báo bảo mật và tính đúng đắn:</strong> Hãy đảm bảo script cào hoạt động chính xác trước khi Lưu. 
+      Hệ thống sẽ chạy thử hàm <code>getMetadata</code> để xác thực cú pháp JS. Viết sai code có thể khiến nguồn đọc truyện bị ngưng trệ.
+    </div>
+
+    <div class="editor-area">
+      <div class="editor-textarea-wrapper">
+        <textarea 
+          [(ngModel)]="selectedExtensionCode" 
+          class="editor-textarea" 
+          placeholder="// Chọn một extension để hiển thị code..." 
+          [disabled]="!selectedExtensionId"
+          spellcheck="false">
+        </textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- CACHE MANAGEMENT TAB -->
+  <div *ngIf="activeTab === 'cache'" class="admin-panel card-glass">
+    <h3>💾 Quản Lý Bộ Nhớ Đệm Hình Ảnh (Image Cache)</h3>
+    <p class="text-secondary">Hệ thống lưu đệm (cache) cục bộ các ảnh chương truyện từ nguồn gốc để tăng tốc độ tải trang và vượt rào cản referrer của các site nguồn.</p>
+
+    <div *ngIf="cacheMessage" class="alert alert-success">{{ cacheMessage }}</div>
+    <div *ngIf="cacheError" class="alert alert-danger">{{ cacheError }}</div>
+
+    <div class="cache-stats-container">
+      <div class="cache-stat-card">
+        <div class="stat-icon">🖼️</div>
+        <div class="stat-info">
+          <span class="stat-label">Số lượng tệp lưu đệm</span>
+          <span class="stat-val" *ngIf="!isLoadingCache && cacheStats">{{ cacheStats.fileCount }} tệp ảnh</span>
+          <span class="stat-val" *ngIf="isLoadingCache"><span class="spinner-small"></span></span>
+        </div>
+      </div>
+
+      <div class="cache-stat-card">
+        <div class="stat-icon">💾</div>
+        <div class="stat-info">
+          <span class="stat-label">Tổng dung lượng sử dụng</span>
+          <span class="stat-val" *ngIf="!isLoadingCache && cacheStats">{{ cacheStats.sizeMb }} MB</span>
+          <span class="stat-val" *ngIf="isLoadingCache"><span class="spinner-small"></span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cache-actions mt-4">
+      <button 
+        (click)="fetchCacheStats()" 
+        [disabled]="isLoadingCache || isClearingCache" 
+        class="btn-secondary">
+        🔄 Làm Mới Thống Kê
+      </button>
+
+      <button 
+        (click)="clearCache()" 
+        [disabled]="isClearingCache || (cacheStats && cacheStats.fileCount === 0)" 
+        class="btn-primary btn-delete-cache">
+        🗑️ Xóa Toàn Bộ Cache
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,74 @@
+<div class="viewer-layout">
+  
+  <!-- Navigation Top Bar -->
+  <header class="viewer-header">
+    <div class="header-left">
+      <a [routerLink]="['/comic', comicId]" class="back-btn">← Thoát</a>
+      <span class="comic-name">{{ comic?.title }}</span>
+    </div>
+    
+    <div class="chapter-nav-center">
+      <button (click)="goToPrevChapter()" [disabled]="getCurrentChapterIndex() === 0" class="nav-arrow-btn">◀</button>
+      <span class="current-chapter-title">{{ currentChapter?.title }}</span>
+      <button (click)="goToNextChapter()" [disabled]="getCurrentChapterIndex() === chapters.length - 1" class="nav-arrow-btn">▶</button>
+    </div>
+
+    <div class="header-right">
+      <button (click)="showSettings = !showSettings" class="btn-secondary settings-btn">⚙️ Tùy chỉnh</button>
+    </div>
+  </header>
+
+  <!-- Settings Float Menu -->
+  <div *ngIf="showSettings" class="settings-menu card-glass">
+    <div class="settings-option">
+      <span class="setting-label">Chế độ đọc:</span>
+      <div class="mode-toggles">
+        <button (click)="mode = 'webtoon'" class="btn-toggle" [class.active]="mode === 'webtoon'">Webtoon</button>
+        <button (click)="mode = 'manga'" class="btn-toggle" [class.active]="mode === 'manga'">Manga</button>
+      </div>
+    </div>
+
+    <div class="settings-option">
+      <span class="setting-label">Độ sáng: {{ brightness }}%</span>
+      <input type="range" [(ngModel)]="brightness" min="30" max="120" step="5" class="brightness-slider">
+    </div>
+  </div>
+
+  <div *ngIf="isLoading" class="loader-container">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Main Viewer Content -->
+  <main *ngIf="!isLoading && pages.length > 0" class="viewer-content" [style.filter]="'brightness(' + brightness + '%)'">
+    
+    <!-- WEBTOON MODE (Vertical scrolling) -->
+    <div *ngIf="mode === 'webtoon'" class="webtoon-container">
+      <img *ngFor="let page of pages; let i = index" 
+           [src]="page" 
+           [alt]="'Page ' + (i + 1)" 
+           class="page-img"
+           loading="lazy">
+    </div>
+
+    <!-- MANGA MODE (Horizontal/Page swiping) -->
+    <div *ngIf="mode === 'manga'" class="manga-container">
+      <div class="manga-slide-wrapper">
+        <button (click)="prevMangaPage()" class="manga-nav-side prev">◀</button>
+        
+        <div class="manga-page-box">
+          <img [src]="pages[currentMangaPageIndex]" [alt]="'Manga Page ' + (currentMangaPageIndex + 1)" class="manga-page-img">
+          <div class="page-indicator">Trang {{ currentMangaPageIndex + 1 }} / {{ pages.length }}</div>
+        </div>
+
+        <button (click)="nextMangaPage()" class="manga-nav-side next">▶</button>
+      </div>
+    </div>
+
+    <!-- Bottom Navigation Footer -->
+    <footer class="viewer-footer">
+      <button (click)="goToPrevChapter()" [disabled]="getCurrentChapterIndex() === 0" class="btn-secondary">Chương trước</button>
+      <button (click)="goToNextChapter()" [disabled]="getCurrentChapterIndex() === chapters.length - 1" class="btn-primary">Chương sau</button>
+    </footer>
+
+  </main>
+</div>
