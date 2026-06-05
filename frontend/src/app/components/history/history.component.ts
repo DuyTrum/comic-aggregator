@@ -11,8 +11,6 @@ import { HistoryService, ReadingHistory } from '../../services/history.service';
   styleUrls: ['./history.component.css']
 })
 export class HistoryComponent implements OnInit {
-  history: ReadingHistory[] = [];
-  loading = false;
 
   constructor(
     public historyService: HistoryService,
@@ -24,11 +22,7 @@ export class HistoryComponent implements OnInit {
   }
 
   loadHistory(): void {
-    this.loading = true;
     this.historyService.loadHistory();
-    // Subscribe to signal changes
-    this.history = this.historyService.history();
-    this.loading = false;
   }
 
   continueReading(item: ReadingHistory): void {

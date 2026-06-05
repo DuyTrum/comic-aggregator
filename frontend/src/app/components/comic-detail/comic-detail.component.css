@@ -237,10 +237,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  color: var(--text-secondary);
 }
 
 .btn-download:hover {
   background-color: var(--bg-tertiary);
+  color: var(--accent);
   transform: scale(1.15);
 }
 

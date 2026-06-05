@@ -25,6 +25,7 @@ export class HistoryService {
   
   // Local history cache
   history = signal<ReadingHistory[]>([]);
+  isLoading = signal<boolean>(false);
 
   constructor(
     private http: HttpClient,
@@ -42,6 +43,7 @@ export class HistoryService {
       return;
     }
 
+    this.isLoading.set(true);
     this.http.get<any[]>(this.apiUrl, {
       headers: this.authService.getAuthHeaders()
     }).subscribe({
@@ -61,10 +63,12 @@ export class HistoryService {
         }));
         this.history.set(mappedData);
         this.saveLocalHistory(mappedData);
+        this.isLoading.set(false);
       },
       error: () => {
         // Fallback to local storage if API fails
         this.loadLocalHistory();
+        this.isLoading.set(false);
       }
     });
   }

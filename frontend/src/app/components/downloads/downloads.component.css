@@ -234,9 +234,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  color: var(--text-secondary);
 }
 
 .delete-btn:hover {
   background-color: rgba(239, 68, 68, 0.1);
+  color: var(--danger);
   transform: scale(1.15);
 }

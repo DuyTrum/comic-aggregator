@@ -5,7 +5,7 @@
       <span>Lịch Sử Đọc Truyện</span>
     </h1>
     <button 
-      *ngIf="history.length > 0" 
+      *ngIf="historyService.history().length > 0" 
       class="clear-btn" 
       (click)="clearAll()">
       <span class="material-symbols-outlined btn-icon">delete_forever</span>
@@ -13,12 +13,12 @@
     </button>
   </div>
 
-  <div *ngIf="loading" class="loading">
+  <div *ngIf="historyService.isLoading()" class="loading">
     <div class="spinner"></div>
     <p>Đang tải lịch sử...</p>
   </div>
 
-  <div *ngIf="!loading && history.length === 0" class="empty-state">
+  <div *ngIf="!historyService.isLoading() && historyService.history().length === 0" class="empty-state">
     <div class="empty-icon">
       <span class="material-symbols-outlined empty-icon-svg" style="font-size: 4.5rem; color: var(--text-muted); display: block; margin-bottom: 12px;">menu_book</span>
     </div>
@@ -27,8 +27,8 @@
     <button class="primary-btn" routerLink="/dashboard">Khám Phá Truyện</button>
   </div>
 
-  <div *ngIf="!loading && history.length > 0" class="history-grid">
-    <div *ngFor="let item of history" class="history-card">
+  <div *ngIf="!historyService.isLoading() && historyService.history().length > 0" class="history-grid">
+    <div *ngFor="let item of historyService.history()" class="history-card">
       <div class="card-image" (click)="goToDetail(item)">
         <img [src]="item.comicCover" [alt]="item.comicTitle" />
         <div class="overlay">
