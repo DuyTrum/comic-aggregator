@@ -29,6 +29,7 @@ export interface ReadingProgress {
   chapterTitle: string;
   scrollPosition: number;
   updatedAt?: string;
+  tags?: string;
 }
 
 @Injectable({
@@ -129,11 +130,18 @@ export class ComicService {
   }
 
   // Browse list of comics
-  getComics(keyword?: string): Observable<Comic[]> {
-    return this.http.post<Comic[]>(`${this.proxyUrl}/browse`, {
+  getComics(keyword?: string, filters?: { status?: string; genres?: string[]; sortBy?: string }): Observable<Comic[]> {
+    const payload: any = {
       source: this.currentSource(),
       query: keyword
-    }).pipe(
+    };
+    if (filters) {
+      if (filters.status) payload.status = filters.status;
+      if (filters.genres && filters.genres.length > 0) payload.genres = filters.genres;
+      if (filters.sortBy) payload.sortBy = filters.sortBy;
+    }
+
+    return this.http.post<Comic[]>(`${this.proxyUrl}/browse`, payload).pipe(
       tap(comics => {
         comics.forEach(c => {
           if (!c.id.includes('::')) {

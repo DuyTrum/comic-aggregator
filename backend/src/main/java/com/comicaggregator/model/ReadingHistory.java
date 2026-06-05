@@ -41,5 +41,8 @@ public class ReadingHistory {
 
     private Integer scrollPosition;
 
+    @Column(name = "tags", length = 1024)
+    private String tags;
+
     private LocalDateTime updatedAt = LocalDateTime.now();
 }

@@ -24,6 +24,13 @@ export class DashboardComponent implements OnInit {
   extensionError = '';
   showExtensionPanel = false;
 
+  // Filter panel properties
+  showFilterPanel = false;
+  selectedStatus = '';
+  selectedSort = 'latest';
+  selectedGenres: string[] = [];
+  popularGenres = ['Action', 'Fantasy', 'Comedy', 'Adventure', 'Romance', 'Drama', 'Historical', 'Demons'];
+
   constructor(private comicService: ComicService) {}
 
   ngOnInit() {
@@ -45,7 +52,12 @@ export class DashboardComponent implements OnInit {
 
   fetchComics() {
     this.isLoading = true;
-    this.comicService.getComics(this.searchQuery).subscribe({
+    const filters = {
+      status: this.selectedStatus || undefined,
+      genres: this.selectedGenres.length > 0 ? this.selectedGenres : undefined,
+      sortBy: this.selectedSort
+    };
+    this.comicService.getComics(this.searchQuery, filters).subscribe({
       next: (data) => {
         this.comics = data;
         this.isLoading = false;
@@ -62,6 +74,35 @@ export class DashboardComponent implements OnInit {
 
   onSourceChangeNgModel() {
     this.comicService.currentSource.set(this.selectedSource);
+    // Reset filters when switching sources to avoid incorrect querying
+    this.selectedStatus = '';
+    this.selectedGenres = [];
+    this.selectedSort = 'latest';
+    this.fetchComics();
+  }
+
+  toggleFilterPanel() {
+    this.showFilterPanel = !this.showFilterPanel;
+  }
+
+  toggleGenre(genre: string) {
+    const index = this.selectedGenres.indexOf(genre);
+    if (index > -1) {
+      this.selectedGenres.splice(index, 1);
+    } else {
+      this.selectedGenres.push(genre);
+    }
+    this.fetchComics();
+  }
+
+  isGenreSelected(genre: string): boolean {
+    return this.selectedGenres.includes(genre);
+  }
+
+  clearFilters() {
+    this.selectedStatus = '';
+    this.selectedSort = 'latest';
+    this.selectedGenres = [];
     this.fetchComics();
   }
 

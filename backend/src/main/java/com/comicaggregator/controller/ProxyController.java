@@ -154,8 +154,19 @@ public class ProxyController {
         try {
             System.out.println("[DEBUG] Browse request - source: " + source + ", query: " + query);
             String resultJson;
-            if (query != null && !query.trim().isEmpty()) {
-                resultJson = scraperService.runExtension(source, "search", Map.of("query", query));
+            
+            // Build parameters map to pass into extension
+            java.util.Map<String, Object> params = new java.util.HashMap<>();
+            if (query != null) params.put("query", query);
+            if (body.get("status") != null) params.put("status", body.get("status"));
+            if (body.get("genres") != null) params.put("genres", body.get("genres"));
+            if (body.get("sortBy") != null) params.put("sortBy", body.get("sortBy"));
+
+            // If we have filters but no search query, we should still call "search" to execute advanced filtering!
+            boolean hasFilters = body.get("status") != null || body.get("genres") != null || body.get("sortBy") != null;
+
+            if ((query != null && !query.trim().isEmpty()) || hasFilters) {
+                resultJson = scraperService.runExtension(source, "search", params);
             } else {
                 resultJson = scraperService.runExtension(source, "getLatest", Map.of());
             }

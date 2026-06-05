@@ -1,0 +1,119 @@
+<div class="analytics-container">
+  
+  <!-- Header Title -->
+  <div class="analytics-header card-glass">
+    <h2>📊 Phân Tích & Thống Kê Cá Nhân</h2>
+    <p>Tổng hợp thông tin thói quen đọc truyện, thể loại yêu thích và nguồn tài nguyên bạn sử dụng nhiều nhất.</p>
+  </div>
+
+  <div *ngIf="isLoading" class="loader-container">
+    <div class="spinner"></div>
+    <p class="mt-2 text-secondary">Đang phân tích dữ liệu đọc truyện...</p>
+  </div>
+
+  <div *ngIf="!isLoading">
+    
+    <!-- Empty State -->
+    <div *ngIf="totalUniqueComics() === 0" class="empty-state card-glass">
+      <div class="empty-icon">📊</div>
+      <h3>Chưa có dữ liệu thống kê</h3>
+      <p>Hãy đọc một vài chương truyện để hệ thống có thể phân tích thói quen đọc truyện của bạn.</p>
+      <a routerLink="/" class="btn-primary mt-3">Khám phá truyện ngay</a>
+    </div>
+
+    <!-- Stats Dashboard Grid -->
+    <div *ngIf="totalUniqueComics() > 0" class="stats-dashboard">
+      
+      <!-- Summary Grid Cards -->
+      <div class="metrics-grid">
+        <div class="metric-card card-glass">
+          <div class="metric-icon">📚</div>
+          <div class="metric-info">
+            <span class="metric-value">{{ totalUniqueComics() }}</span>
+            <span class="metric-label">Đầu truyện đã đọc</span>
+          </div>
+        </div>
+
+        <div class="metric-card card-glass">
+          <div class="metric-icon">⭐</div>
+          <div class="metric-info">
+            <span class="metric-value">{{ totalBookmarks }}</span>
+            <span class="metric-label">Truyện yêu thích (Thư viện)</span>
+          </div>
+        </div>
+
+        <div class="metric-card card-glass">
+          <div class="metric-icon">🔌</div>
+          <div class="metric-info">
+            <span class="metric-value">{{ sourceStats().length }}</span>
+            <span class="metric-label">Nguồn truyện đã đọc</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Analytics Details Section -->
+      <div class="details-grid">
+        
+        <!-- Top Genres Chart (CSS Bar Chart) -->
+        <div class="chart-box card-glass">
+          <h3 class="chart-title">🔥 Thể Loại Đọc Nhiều Nhất</h3>
+          <p class="chart-subtitle">Tỷ lệ % các bộ truyện bạn đã đọc có gắn các thẻ thể loại này.</p>
+          
+          <div class="genres-list mt-3">
+            <div *ngFor="let g of topGenres()" class="genre-bar-item">
+              <div class="genre-meta">
+                <span class="genre-name">{{ g.name }}</span>
+                <span class="genre-count">{{ g.count }} truyện ({{ g.percentage }}%)</span>
+              </div>
+              <div class="progress-bar-bg">
+                <div class="progress-bar-fill" [style.width.%]="g.percentage"></div>
+              </div>
+            </div>
+            <div *ngIf="topGenres().length === 0" class="text-muted text-center py-4">
+              Không có dữ liệu thể loại. Chỉ các truyện đọc online mới hỗ trợ thống kê thẻ thể loại.
+            </div>
+          </div>
+        </div>
+
+        <!-- Source Distribution -->
+        <div class="chart-box card-glass">
+          <h3 class="chart-title">🔌 Phân Bố Theo Nguồn Truyện</h3>
+          <p class="chart-subtitle">Tỷ lệ các chương truyện bạn đã đọc đến từ các nguồn khác nhau.</p>
+
+          <div class="sources-list mt-3">
+            <div *ngFor="let s of sourceStats()" class="source-bar-item">
+              <div class="source-meta">
+                <span class="source-name">{{ s.name }}</span>
+                <span class="source-count">{{ s.count }} chương ({{ s.percentage }}%)</span>
+              </div>
+              <div class="progress-bar-bg">
+                <div class="progress-bar-fill source-color" [style.width.%]="s.percentage"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Recent Reads section -->
+      <div class="recent-reads-section mt-4 card-glass">
+        <h3 class="chart-title">📈 Hoạt Động Đọc Gần Đây</h3>
+        <p class="chart-subtitle">Danh sách 3 bộ truyện bạn vừa đọc gần đây nhất.</p>
+
+        <div class="recent-grid mt-3">
+          <div *ngFor="let item of recentReads()" class="recent-card card-glass" [routerLink]="['/comic', item.source + '::' + item.comicId]">
+            <img [src]="item.comicCover" [alt]="item.comicTitle" class="recent-cover">
+            <div class="recent-info">
+              <h4 class="recent-title">{{ item.comicTitle }}</h4>
+              <p class="recent-chapter">Đang đọc: {{ item.lastChapterTitle }}</p>
+              <p class="recent-time">Thời gian: {{ item.lastReadAt | date:'dd/MM/yyyy HH:mm' }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

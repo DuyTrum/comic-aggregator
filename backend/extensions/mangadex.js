@@ -39,12 +39,55 @@ module.exports = {
 
     async search(params) {
         const query = (params.query || '').trim();
-        if (!query) {
+        const status = params.status || '';
+        const genres = params.genres || [];
+        const sortBy = params.sortBy || 'latest';
+
+        // If no query and no filters, fallback to latest
+        if (!query && !status && (!genres || genres.length === 0) && sortBy === 'latest') {
             return this.getLatest();
         }
 
         try {
-            const url = `https://api.mangadex.org/manga?title=${encodeURIComponent(query)}&limit=30&includes[]=cover_art&contentRating[]=safe&contentRating[]=suggestive`;
+            let url = 'https://api.mangadex.org/manga?limit=30&includes[]=cover_art&contentRating[]=safe&contentRating[]=suggestive';
+            
+            if (query) {
+                url += `&title=${encodeURIComponent(query)}`;
+            }
+
+            if (status) {
+                const isCompleted = status === 'Đã hoàn thành' || status === 'completed';
+                url += `&status[]=${isCompleted ? 'completed' : 'ongoing'}`;
+            }
+
+            const genreMap = {
+                'Action': '391b0423-d847-456f-aff0-8b0cfc03066b',
+                'Fantasy': 'cdad7e68-1419-41dd-95d2-4475ee6966a9',
+                'Comedy': '4d32b506-ff2e-4176-a8f2-95fbbd23d24e',
+                'Adventure': '87cc8730-130d-4172-8d9b-8c1b1384d097',
+                'Romance': '423e2eae-977e-4134-b68d-80f613a7b7ec',
+                'Drama': 'b9caf177-ad2d-491c-9f2c-e04551fda544',
+                'Historical': '337a0a82-2f3e-4d07-a0c7-0399d8be2d11',
+                'Demons': '3bbd0af3-583b-4ab8-a733-1437bf7ba845'
+            };
+
+            if (genres && genres.length > 0) {
+                genres.forEach(g => {
+                    const uuid = genreMap[g];
+                    if (uuid) {
+                        url += `&includedTags[]=${uuid}`;
+                    }
+                });
+            }
+
+            if (sortBy === 'title_asc') {
+                url += '&order[title]=asc';
+            } else if (sortBy === 'title_desc') {
+                url += '&order[title]=desc';
+            } else {
+                url += '&order[latestUploadedChapter]=desc';
+            }
+
             const response = await axios.get(url, {
                 headers: { 'User-Agent': 'ComicAggregator/1.0.0' }
             });

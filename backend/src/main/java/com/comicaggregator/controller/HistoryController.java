@@ -46,6 +46,7 @@ public class HistoryController {
         
         String chapterId = payload.containsKey("chapterId") ? (String) payload.get("chapterId") : (String) payload.get("lastChapterId");
         String chapterTitle = payload.containsKey("chapterTitle") ? (String) payload.get("chapterTitle") : (String) payload.get("lastChapterTitle");
+        String tags = payload.containsKey("tags") ? (String) payload.get("tags") : "";
         
         Integer scrollPosition = null;
         Object rawScroll = payload.get("scrollPosition");
@@ -71,6 +72,9 @@ public class HistoryController {
             if (comicCover != null && !comicCover.isEmpty()) {
                 history.setComicCover(comicCover);
             }
+            if (tags != null && !tags.isEmpty()) {
+                history.setTags(tags);
+            }
             history.setUpdatedAt(LocalDateTime.now());
         } else {
             history = ReadingHistory.builder()
@@ -82,6 +86,7 @@ public class HistoryController {
                     .chapterId(chapterId)
                     .chapterTitle(chapterTitle)
                     .scrollPosition(scrollPosition)
+                    .tags(tags)
                     .updatedAt(LocalDateTime.now())
                     .build();
         }

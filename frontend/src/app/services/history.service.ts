@@ -14,6 +14,7 @@ export interface ReadingHistory {
   lastChapterTitle: string;
   lastReadAt: Date;
   currentPage?: number;
+  tags?: string;
 }
 
 @Injectable({
@@ -55,7 +56,8 @@ export class HistoryService {
           lastChapterId: item.chapterId || item.lastChapterId,
           lastChapterTitle: item.chapterTitle || item.lastChapterTitle,
           lastReadAt: item.updatedAt ? new Date(item.updatedAt) : new Date(item.lastReadAt || Date.now()),
-          currentPage: item.scrollPosition !== undefined ? item.scrollPosition : item.currentPage
+          currentPage: item.scrollPosition !== undefined ? item.scrollPosition : item.currentPage,
+          tags: item.tags
         }));
         this.history.set(mappedData);
         this.saveLocalHistory(mappedData);

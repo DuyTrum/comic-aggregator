@@ -413,8 +413,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
       lastChapterId: this.chapterId,
       lastChapterTitle: this.currentChapter.title,
       lastReadAt: new Date(),
-      currentPage: savedScrollPosition
-    }).subscribe();
+      currentPage: savedScrollPosition,
+      tags: this.comic.tags ? this.comic.tags.join(',') : ''
+    } as any).subscribe();
   }
 
   syncProgress(scrollPos: number) {
@@ -440,7 +441,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
       source: this.comic.source,
       chapterId: this.chapterId,
       chapterTitle: currentChapter.title,
-      scrollPosition: relativeScrollPos
+      scrollPosition: relativeScrollPos,
+      tags: this.comic.tags ? this.comic.tags.join(',') : ''
     }).subscribe();
   }
 

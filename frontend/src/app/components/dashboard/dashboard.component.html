@@ -20,10 +20,17 @@
         </select>
       </div>
 
-      <!-- Extension Panel Toggle Button -->
-      <button (click)="toggleExtensionPanel()" class="btn-secondary ext-manager-btn">
-        <span>⚙️</span> {{ showExtensionPanel ? 'Đóng quản lý' : 'Quản lý Extension' }}
-      </button>
+      <div class="action-buttons-group">
+        <!-- Advanced Filters Toggle Button -->
+        <button (click)="toggleFilterPanel()" class="btn-secondary filter-toggle-btn" [class.active]="showFilterPanel">
+          <span>🔍</span> {{ showFilterPanel ? 'Ẩn bộ lọc' : 'Bộ lọc nâng cao' }}
+        </button>
+
+        <!-- Extension Panel Toggle Button -->
+        <button (click)="toggleExtensionPanel()" class="btn-secondary ext-manager-btn">
+          <span>⚙️</span> {{ showExtensionPanel ? 'Đóng quản lý' : 'Quản lý Extension' }}
+        </button>
+      </div>
     </div>
 
     <!-- Collapsible Extension Management Panel -->
@@ -52,6 +59,55 @@
             <span *ngIf="ext.name === 'MangaDex'" class="default-badge">Mặc định</span>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- Collapsible Advanced Filter Panel -->
+    <div *ngIf="showFilterPanel" class="filter-panel card-glass">
+      <h3 class="panel-title">⚙️ Bộ Lọc Truyện Nâng Cao</h3>
+      
+      <div class="filter-grid">
+        <!-- Status Filter -->
+        <div class="filter-group">
+          <label class="control-label">Trạng thái phát hành:</label>
+          <select [(ngModel)]="selectedStatus" (change)="fetchComics()" class="select-field">
+            <option value="">Tất cả trạng thái</option>
+            <option value="ongoing">Đang tiến hành / Đang cập nhật</option>
+            <option value="completed">Đã hoàn thành</option>
+          </select>
+        </div>
+
+        <!-- Sort Filter -->
+        <div class="filter-group">
+          <label class="control-label">Sắp xếp theo:</label>
+          <select [(ngModel)]="selectedSort" (change)="fetchComics()" class="select-field">
+            <option value="latest">Mới cập nhật</option>
+            <option value="title_asc">Tên truyện: A-Z</option>
+            <option value="title_desc">Tên truyện: Z-A</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Genres Selection -->
+      <div class="filter-group mt-3">
+        <label class="control-label">Thể loại truyện:</label>
+        <div class="genre-tags-grid">
+          <button 
+            *ngFor="let genre of popularGenres" 
+            type="button"
+            (click)="toggleGenre(genre)" 
+            class="genre-tag-btn" 
+            [class.active]="isGenreSelected(genre)">
+            {{ genre }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Clear Filters Button -->
+      <div class="filter-actions mt-3">
+        <button (click)="clearFilters()" class="btn-secondary btn-clear-filters">
+          🗑️ Xóa toàn bộ bộ lọc
+        </button>
       </div>
     </div>
 
