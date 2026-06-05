@@ -36,5 +36,19 @@ public class UserLibrary {
     @Column(length = 2048)
     private String coverUrl;
 
+    @Column(name = "latest_chapter_id", length = 1024)
+    private String latestChapterId;
+
+    @Column(name = "latest_chapter_title", length = 1024)
+    private String latestChapterTitle;
+
+    @Column(name = "last_checked_at")
+    private LocalDateTime lastCheckedAt;
+
+    @Column(name = "unread_count")
+    @Builder.Default
+    private Integer unreadCount = 0;
+
+    @Builder.Default
     private LocalDateTime bookmarkedAt = LocalDateTime.now();
 }

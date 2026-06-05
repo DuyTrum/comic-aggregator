@@ -13,6 +13,9 @@
       <a *ngIf="authService.isAuthenticated()" routerLink="/library" class="nav-link" routerLinkActive="active">
         <span class="material-symbols-outlined nav-icon">auto_stories</span>
         <span>Thư viện</span>
+        <span *ngIf="comicService.totalUnreadCount() > 0" class="nav-badge-unread">
+          {{ comicService.totalUnreadCount() }}
+        </span>
       </a>
       <a routerLink="/history" class="nav-link" routerLinkActive="active">
         <span class="material-symbols-outlined nav-icon">history</span>

@@ -2,8 +2,10 @@ package com.comicaggregator.controller;
 
 import com.comicaggregator.model.User;
 import com.comicaggregator.model.ReadingHistory;
+import com.comicaggregator.model.UserLibrary;
 import com.comicaggregator.repository.UserRepository;
 import com.comicaggregator.repository.ReadingHistoryRepository;
+import com.comicaggregator.repository.UserLibraryRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/api/history")
@@ -19,10 +23,14 @@ public class HistoryController {
 
     private final UserRepository userRepository;
     private final ReadingHistoryRepository readingHistoryRepository;
+    private final UserLibraryRepository userLibraryRepository;
 
-    public HistoryController(UserRepository userRepository, ReadingHistoryRepository readingHistoryRepository) {
+    public HistoryController(UserRepository userRepository, 
+                             ReadingHistoryRepository readingHistoryRepository,
+                             UserLibraryRepository userLibraryRepository) {
         this.userRepository = userRepository;
         this.readingHistoryRepository = readingHistoryRepository;
+        this.userLibraryRepository = userLibraryRepository;
     }
 
     @GetMapping
@@ -92,6 +100,25 @@ public class HistoryController {
         }
 
         readingHistoryRepository.save(history);
+
+        // Synchronize with UserLibrary to mark unreadCount as 0 if they read the latest chapter
+        Optional<UserLibrary> libOpt = userLibraryRepository
+                .findByUserIdAndComicIdOnSourceAndSourceName(user.getId(), comicId, source);
+        if (libOpt.isPresent()) {
+            UserLibrary libItem = libOpt.get();
+            if (libItem.getLatestChapterTitle() != null) {
+                double readNum = parseChapterNumber(chapterTitle);
+                double latestNum = parseChapterNumber(libItem.getLatestChapterTitle());
+                if (readNum >= latestNum) {
+                    libItem.setUnreadCount(0);
+                    userLibraryRepository.save(libItem);
+                }
+            } else {
+                libItem.setUnreadCount(0);
+                userLibraryRepository.save(libItem);
+            }
+        }
+
         return ResponseEntity.ok(Map.of("message", "History updated successfully"));
     }
 
@@ -100,14 +127,12 @@ public class HistoryController {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByUsername(username).orElseThrow();
 
-        // Try to delete by document ID first
         Optional<ReadingHistory> historyOpt = readingHistoryRepository.findById(id);
         if (historyOpt.isPresent() && historyOpt.get().getUserId().equals(user.getId())) {
             readingHistoryRepository.delete(historyOpt.get());
             return ResponseEntity.ok(Map.of("message", "History item deleted successfully"));
         }
 
-        // If not found by document ID, look for items matching comicId for this user and delete them
         List<ReadingHistory> historyList = readingHistoryRepository.findByUserIdOrderByUpdatedAtDesc(user.getId());
         boolean deleted = false;
         for (ReadingHistory rh : historyList) {
@@ -133,5 +158,19 @@ public class HistoryController {
         readingHistoryRepository.deleteAll(historyList);
 
         return ResponseEntity.ok(Map.of("message", "All history cleared successfully"));
+    }
+
+    private static double parseChapterNumber(String title) {
+        if (title == null) return 0.0;
+        Pattern pattern = Pattern.compile("(?:chapter|chương|chap|\\b)\\s*(\\d+(?:\\.\\d+)?)", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(title);
+        if (matcher.find()) {
+            try {
+                return Double.parseDouble(matcher.group(1));
+            } catch (NumberFormatException e) {
+                return 0.0;
+            }
+        }
+        return 0.0;
     }
 }

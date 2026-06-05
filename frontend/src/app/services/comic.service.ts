@@ -104,6 +104,7 @@ export class ComicService {
   };
 
   currentSource = signal<string>('MangaDex');
+  totalUnreadCount = signal<number>(0);
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
@@ -253,6 +254,8 @@ export class ComicService {
             b.coverUrl = this.getImageProxyUrl(b.coverUrl);
           }
         });
+        const total = bookmarks.reduce((sum, b) => sum + (b.unreadCount || 0), 0);
+        this.totalUnreadCount.set(total);
       }),
       catchError((err) => {
         if (err && (err.status === 401 || err.status === 403)) {
@@ -266,6 +269,27 @@ export class ComicService {
           }
         });
         return of(list);
+      })
+    );
+  }
+
+  checkLibraryUpdates(): Observable<any[]> {
+    if (!this.authService.isAuthenticated()) return of([]);
+    return this.http.post<any[]>(`${this.libraryUrl}/check-updates`, {}, { headers: this.authService.getAuthHeaders() }).pipe(
+      tap(bookmarks => {
+        bookmarks.forEach(b => {
+          if (b.coverUrl) {
+            b.coverUrl = this.getImageProxyUrl(b.coverUrl);
+          }
+        });
+        const total = bookmarks.reduce((sum, b) => sum + (b.unreadCount || 0), 0);
+        this.totalUnreadCount.set(total);
+      }),
+      catchError((err) => {
+        if (err && (err.status === 401 || err.status === 403)) {
+          this.authService.logout();
+        }
+        return of([]);
       })
     );
   }

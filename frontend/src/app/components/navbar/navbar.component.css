@@ -85,3 +85,20 @@
 .user-greeting {
   color: var(--text-secondary);
 }
+
+.nav-badge-unread {
+  background: linear-gradient(135deg, var(--danger) 0%, #ff6b3b 100%);
+  color: var(--text-primary);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 10px;
+  min-width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-left: 2px;
+}

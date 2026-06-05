@@ -1,5 +1,15 @@
 <div class="library-container">
-  <h1 class="library-title">Thư viện của tôi</h1>
+  <div class="library-header">
+    <h1 class="library-title">Thư viện của tôi</h1>
+    <button 
+      *ngIf="bookmarks.length > 0" 
+      (click)="checkUpdates()" 
+      [disabled]="isRefreshing || isLoading" 
+      class="btn-secondary refresh-btn">
+      <span class="material-symbols-outlined btn-icon" [class.rotating]="isRefreshing">refresh</span>
+      <span>{{ isRefreshing ? 'Đang quét...' : 'Kiểm tra chương mới' }}</span>
+    </button>
+  </div>
 
   <div *ngIf="isLoading" class="loader-container">
     <div class="spinner"></div>
@@ -16,10 +26,30 @@
       <div class="cover-wrapper">
         <img [src]="item.coverUrl" [alt]="item.comicTitle" class="comic-cover" loading="lazy">
         <span class="source-badge">{{ item.sourceName }}</span>
+        
+        <!-- Glowing unread count badge -->
+        <span *ngIf="item.unreadCount > 0" class="unread-badge">
+          +{{ item.unreadCount }} chương mới
+        </span>
       </div>
       <div class="comic-info">
-        <h3 class="comic-title">{{ item.comicTitle }}</h3>
-        <p class="comic-date">Đã lưu vào thư viện</p>
+        <h3 class="comic-title" [title]="item.comicTitle">{{ item.comicTitle }}</h3>
+        
+        <div class="progress-info">
+          <!-- Last read progress -->
+          <p class="progress-status" [class.read]="item.lastReadChapterTitle">
+            <span class="material-symbols-outlined info-icon">menu_book</span>
+            <span>{{ item.lastReadChapterTitle ? 'Đang đọc: ' + item.lastReadChapterTitle : 'Chưa đọc' }}</span>
+          </p>
+          
+          <!-- Latest chapter checked -->
+          <p class="latest-status" *ngIf="item.latestChapterTitle">
+            <span class="material-symbols-outlined info-icon">new_releases</span>
+            <span>Mới nhất: {{ item.latestChapterTitle }}</span>
+          </p>
+        </div>
+        
+        <p class="checked-time">Quét: {{ formatDate(item.lastCheckedAt) }}</p>
       </div>
     </div>
   </div>
