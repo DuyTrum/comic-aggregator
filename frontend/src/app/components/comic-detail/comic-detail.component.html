@@ -56,8 +56,28 @@
          [routerLink]="['/read', comic.id, chapter.id]" 
          class="chapter-row"
          [class.last-read]="lastReadProgress?.chapterId === chapter.id">
-        <span class="chapter-title">{{ chapter.title }}</span>
-        <span *ngIf="lastReadProgress?.chapterId === chapter.id" class="read-badge">Đang đọc dở</span>
+        <div class="chapter-row-left">
+          <span class="chapter-title">{{ chapter.title }}</span>
+          <span *ngIf="lastReadProgress?.chapterId === chapter.id" class="read-badge">Đang đọc dở</span>
+        </div>
+        <div class="chapter-row-right">
+          <!-- Download Actions -->
+          <ng-container [ngSwitch]="downloadedChaptersMap.get(chapter.id)?.status">
+            <span *ngSwitchCase="'PENDING'" class="download-status pending" title="Đang chờ tải...">⏳ Chờ...</span>
+            <span *ngSwitchCase="'DOWNLOADING'" class="download-status downloading" title="Đang tải...">
+              ⏳ {{ getDownloadPercent(chapter.id) }}%
+            </span>
+            <span *ngSwitchCase="'COMPLETED'" class="download-status completed" title="Đã tải xuống">
+              ✅
+              <button class="btn-delete-download" (click)="deleteDownload(chapter.id, $event)" title="Xóa bản tải">🗑️</button>
+            </span>
+            <span *ngSwitchCase="'FAILED'" class="download-status failed" title="Tải lỗi">
+              ❌
+              <button class="btn-download" (click)="downloadChapter(chapter, $event)" title="Tải lại">📥</button>
+            </span>
+            <button *ngSwitchDefault class="btn-download" (click)="downloadChapter(chapter, $event)" title="Tải về máy">📥</button>
+          </ng-container>
+        </div>
       </a>
     </div>
   </div>

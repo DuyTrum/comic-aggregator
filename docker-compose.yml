@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: comic-db
+    restart: always
+    environment:
+      POSTGRES_DB: comic_aggregator
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Duylaso1
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: comic-backend
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/comic_aggregator
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=Duylaso1
+      - APP_CACHE_DIR=/app/image_cache
+      - APP_EXTENSIONS_DIR=/app/extensions
+      - APP_SCRAPER_RUNNER_PATH=/app/scraper/runner.js
+    volumes:
+      - ./backend/extensions:/app/extensions
+      - ./backend/image_cache:/app/image_cache
+    depends_on:
+      - db
+
+volumes:
+  pgdata:

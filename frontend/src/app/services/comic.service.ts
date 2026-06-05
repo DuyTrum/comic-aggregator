@@ -38,6 +38,7 @@ export class ComicService {
   private proxyUrl = 'http://localhost:8080/api/proxy';
   private libraryUrl = 'http://localhost:8080/api/library';
   private historyUrl = 'http://localhost:8080/api/history';
+  private downloadUrl = 'http://localhost:8080/api/download';
 
   // Premium mock data for immediate UI rendering & verification
   private mockComics: Comic[] = [
@@ -245,7 +246,10 @@ export class ComicService {
           }
         });
       }),
-      catchError(() => {
+      catchError((err) => {
+        if (err && (err.status === 401 || err.status === 403)) {
+          this.authService.logout();
+        }
         const local = localStorage.getItem('local_bookmarks');
         const list = local ? JSON.parse(local) : [];
         list.forEach((b: any) => {
@@ -287,9 +291,14 @@ export class ComicService {
   }
 
   getReadingHistory(): Observable<ReadingProgress[]> {
-    if (!this.authService.isAuthenticated()) return of([]);
+    if (!this.authService.isAuthenticated()) {
+      return of([]);
+    }
     return this.http.get<ReadingProgress[]>(this.historyUrl, { headers: this.authService.getAuthHeaders() }).pipe(
-      catchError(() => {
+      catchError((err) => {
+        if (err && (err.status === 401 || err.status === 403)) {
+          this.authService.logout();
+        }
         const local = localStorage.getItem('local_history');
         return of(local ? JSON.parse(local) : []);
       })
@@ -297,7 +306,9 @@ export class ComicService {
   }
 
   updateReadingHistory(progress: ReadingProgress): Observable<any> {
-    if (!this.authService.isAuthenticated()) return of(null);
+    if (!this.authService.isAuthenticated()) {
+      return of(null);
+    }
     return this.http.post(this.historyUrl, progress, { headers: this.authService.getAuthHeaders() }).pipe(
       catchError(() => {
         const local = localStorage.getItem('local_history');
@@ -312,5 +323,25 @@ export class ComicService {
         return of({ success: true });
       })
     );
+  }
+
+  downloadChapter(progress: any): Observable<any> {
+    return this.http.post(`${this.downloadUrl}/chapter`, progress);
+  }
+
+  getDownloadStatus(chapterId: string): Observable<any> {
+    return this.http.get(`${this.downloadUrl}/status/${chapterId}`);
+  }
+
+  getDownloadedChapters(comicId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.downloadUrl}/comic/${encodeURIComponent(comicId)}`);
+  }
+
+  getDownloadedList(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.downloadUrl}/list`);
+  }
+
+  deleteDownloadedChapter(chapterId: string): Observable<any> {
+    return this.http.delete(`${this.downloadUrl}/${chapterId}`);
   }
 }

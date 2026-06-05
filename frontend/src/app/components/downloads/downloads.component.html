@@ -1,0 +1,45 @@
+<div class="downloads-container">
+  <div class="downloads-header">
+    <h1>📥 Truyện Đã Tải Ngoại Tuyến</h1>
+    <p class="subtitle">Đọc truyện mượt mà không cần kết nối mạng internet.</p>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Đang tải danh sách truyện offline...</p>
+  </div>
+
+  <div *ngIf="!isLoading && groupedDownloads.length === 0" class="empty-state card-glass">
+    <div class="empty-icon">📥</div>
+    <h2>Thư viện tải xuống trống</h2>
+    <p>Tải xuống các chương truyện để có thể đọc ngoại tuyến bất cứ khi nào.</p>
+    <button class="primary-btn" routerLink="/">Khám Phá Truyện</button>
+  </div>
+
+  <div *ngIf="!isLoading && groupedDownloads.length > 0" class="downloads-grid">
+    <div *ngFor="let comic of groupedDownloads" class="comic-download-card card-glass">
+      <div class="comic-card-header" (click)="goToDetail(comic.comicId)">
+        <div class="cover-wrapper">
+          <img [src]="comic.comicCover" [alt]="comic.comicTitle" class="comic-cover" />
+          <span class="source-badge">{{ comic.source }}</span>
+        </div>
+        <div class="comic-info">
+          <h2 class="comic-title">{{ comic.comicTitle }}</h2>
+          <span class="chapters-count">{{ comic.chapters.length }} chương đã tải</span>
+        </div>
+      </div>
+      
+      <div class="chapters-list">
+        <div *ngFor="let ch of comic.chapters" class="chapter-row" (click)="readChapter(comic.comicId, ch.chapterId)">
+          <div class="chapter-info">
+            <span class="chapter-title">▶️ {{ ch.chapterTitle }}</span>
+            <span class="downloaded-time">Đã tải: {{ formatDate(ch.downloadedAt) }}</span>
+          </div>
+          <button class="delete-btn" (click)="deleteChapter(ch.chapterId, $event)" title="Xóa bản tải">
+            🗑️
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

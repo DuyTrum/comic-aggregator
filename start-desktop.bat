@@ -1,23 +1,40 @@
 @echo off
-title ComicAggregator - Quick Launch
+title ComicAggregator - Docker Launch
+color 0E
 
-:: Kill any existing java/desktop processes to free port 8080 and files
-taskkill /f /im java.exe /t 2>nul
-taskkill /f /im javaw.exe /t 2>nul
+echo =====================================================================
+echo    ComicAggregator - Khoi chay ung dung Desktop voi Docker
+echo =====================================================================
+echo.
+
+:: 1. Tat tien trinh desktop cu dang chay neu co
 taskkill /f /im comic-aggregator-win_x64.exe /t 2>nul
 taskkill /f /im comic-aggregator-NEW.exe /t 2>nul
 
-:: Delete resources.neu so NeutralinoJS loads from the loose resources/ folder instead of the old packed archive
+:: 2. Khoi dong Docker compose o che do ngam (Backend + DB)
+echo [*] Dang kiem tra va khoi dong Docker Containers...
+docker compose up -d
+if %ERRORLEVEL% NEQ 0 (
+    echo.
+    echo [ERR] Khong the khoi dong Docker! 
+    echo [!] Vui long kiem tra xem Docker Desktop da duoc bat va dang chay chua.
+    echo.
+    pause
+    exit /b %ERRORLEVEL%
+)
+
+:: 3. Don dep cache NeutralinoJS neu co
 del /q "desktop\comic-aggregator\resources.neu" 2>nul
 
-:: Launch Spring Boot Backend silently in the background
-cd backend
-start "" javaw -Djava.net.preferIPv4Stack=true -jar build/libs/demo-0.0.1-SNAPSHOT.jar
-cd ..
-
-:: Launch Desktop App
+:: 4. Khoi chay Desktop App
+echo [+] Dang khoi chay ung dung Desktop...
 cd desktop/comic-aggregator
 start "" comic-aggregator-win_x64.exe
+cd ../..
 
-:: Exit launcher terminal immediately
+echo.
+echo [!] Khoi dong thanh cong! 
+echo [!] Backend va Database dang tiep tuc chay ngam trong Docker.
+echo.
+timeout /t 3
 exit

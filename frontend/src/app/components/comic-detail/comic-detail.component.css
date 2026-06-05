@@ -212,3 +212,69 @@
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+/* Downloads Layout & Actions */
+.chapter-row-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.chapter-row-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-download, .btn-delete-download {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-download:hover {
+  background-color: var(--bg-tertiary);
+  transform: scale(1.15);
+}
+
+.btn-delete-download:hover {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--danger);
+  transform: scale(1.15);
+}
+
+.download-status {
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.download-status.pending {
+  color: var(--text-secondary);
+}
+
+.download-status.downloading {
+  color: var(--accent);
+}
+
+.download-status.completed {
+  color: #10B981;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.download-status.failed {
+  color: var(--danger);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

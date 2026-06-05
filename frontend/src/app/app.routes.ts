@@ -10,6 +10,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { LibraryComponent } from './components/library/library.component';
 import { HistoryComponent } from './components/history/history.component';
 import { AdminComponent } from './components/admin/admin.component';
+import { DownloadsComponent } from './components/downloads/downloads.component';
 
 const adminGuard = () => {
   const authService = inject(AuthService);
@@ -29,6 +30,7 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'library', component: LibraryComponent },
   { path: 'history', component: HistoryComponent },
+  { path: 'downloads', component: DownloadsComponent },
   { path: 'admin', component: AdminComponent, canActivate: [adminGuard] },
   { path: '**', redirectTo: '' }
 ];

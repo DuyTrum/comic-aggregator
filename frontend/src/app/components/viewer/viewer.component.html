@@ -1,4 +1,4 @@
-<div class="viewer-layout">
+<div class="viewer-layout" [class.theme-black]="theme === 'black'" [class.theme-dark]="theme === 'dark'" [class.theme-sepia]="theme === 'sepia'" [class.theme-light]="theme === 'light'">
   
   <!-- Navigation Top Bar -->
   <header class="viewer-header">
@@ -23,8 +23,39 @@
     <div class="settings-option">
       <span class="setting-label">Chế độ đọc:</span>
       <div class="mode-toggles">
-        <button (click)="mode = 'webtoon'" class="btn-toggle" [class.active]="mode === 'webtoon'">Webtoon</button>
-        <button (click)="mode = 'manga'" class="btn-toggle" [class.active]="mode === 'manga'">Manga</button>
+        <button (click)="setMode('webtoon')" class="btn-toggle" [class.active]="mode === 'webtoon'">Webtoon</button>
+        <button (click)="setMode('manga')" class="btn-toggle" [class.active]="mode === 'manga'">Manga</button>
+      </div>
+    </div>
+
+    <!-- Theme Customization -->
+    <div class="settings-option">
+      <span class="setting-label">Màu nền:</span>
+      <div class="theme-toggles">
+        <button (click)="setTheme('black')" class="btn-theme black" [class.active]="theme === 'black'" title="Đen"></button>
+        <button (click)="setTheme('dark')" class="btn-theme dark" [class.active]="theme === 'dark'" title="Tối"></button>
+        <button (click)="setTheme('sepia')" class="btn-theme sepia" [class.active]="theme === 'sepia'" title="Sepia"></button>
+        <button (click)="setTheme('light')" class="btn-theme light" [class.active]="theme === 'light'" title="Sáng"></button>
+      </div>
+    </div>
+
+    <!-- Webtoon Container Width -->
+    <div *ngIf="mode === 'webtoon'" class="settings-option">
+      <span class="setting-label">Độ rộng trang:</span>
+      <div class="width-toggles">
+        <button (click)="setWebtoonWidth(600)" class="btn-toggle" [class.active]="webtoonWidth === 600">Hẹp</button>
+        <button (click)="setWebtoonWidth(800)" class="btn-toggle" [class.active]="webtoonWidth === 800">Vừa</button>
+        <button (click)="setWebtoonWidth(1000)" class="btn-toggle" [class.active]="webtoonWidth === 1000">Rộng</button>
+        <button (click)="setWebtoonWidth(1200)" class="btn-toggle" [class.active]="webtoonWidth === 1200">Tràn viền</button>
+      </div>
+    </div>
+
+    <!-- Image Alignment -->
+    <div class="settings-option">
+      <span class="setting-label">Căn lề hình ảnh:</span>
+      <div class="alignment-toggles">
+        <button (click)="setAlignment('center')" class="btn-toggle" [class.active]="alignment === 'center'">Giữa</button>
+        <button (click)="setAlignment('left')" class="btn-toggle" [class.active]="alignment === 'left'">Trái</button>
       </div>
     </div>
 
@@ -42,12 +73,19 @@
   <main *ngIf="!isLoading && pages.length > 0" class="viewer-content" [style.filter]="'brightness(' + brightness + '%)'">
     
     <!-- WEBTOON MODE (Vertical scrolling) -->
-    <div *ngIf="mode === 'webtoon'" class="webtoon-container">
-      <img *ngFor="let page of pages; let i = index" 
-           [src]="page" 
-           [alt]="'Page ' + (i + 1)" 
-           class="page-img"
-           loading="lazy">
+    <div *ngIf="mode === 'webtoon'" 
+         class="webtoon-container"
+         [style.max-width.px]="webtoonWidth"
+         [class.align-left]="alignment === 'left'">
+      <div *ngFor="let page of pages; let i = index" 
+           class="page-wrapper"
+           [attr.data-chapter-id]="page.chapterId"
+           [attr.data-chapter-title]="page.chapterTitle">
+        <img [src]="page.url" 
+             [alt]="'Page ' + (i + 1)" 
+             class="page-img"
+             loading="lazy">
+      </div>
     </div>
 
     <!-- MANGA MODE (Horizontal/Page swiping) -->
@@ -55,8 +93,8 @@
       <div class="manga-slide-wrapper">
         <button (click)="prevMangaPage()" class="manga-nav-side prev">◀</button>
         
-        <div class="manga-page-box">
-          <img [src]="pages[currentMangaPageIndex]" [alt]="'Manga Page ' + (currentMangaPageIndex + 1)" class="manga-page-img">
+        <div class="manga-page-box" [class.align-left]="alignment === 'left'">
+          <img [src]="pages[currentMangaPageIndex].url" [alt]="'Manga Page ' + (currentMangaPageIndex + 1)" class="manga-page-img">
           <div class="page-indicator">Trang {{ currentMangaPageIndex + 1 }} / {{ pages.length }}</div>
         </div>
 

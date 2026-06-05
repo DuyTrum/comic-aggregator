@@ -30,3 +30,7 @@ desktop/comic-aggregator/resources/assets/
 # Cache & Logs
 backend/image_cache/
 *.log
+
+# Temporary config files & shortcuts
+desktop/comic-aggregator/.tmp/
+*.lnk

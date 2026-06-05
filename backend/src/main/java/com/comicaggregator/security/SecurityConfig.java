@@ -49,6 +49,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/proxy/image").permitAll()
                 .requestMatchers("/api/proxy/browse", "/api/proxy/chapters", "/api/proxy/pages", "/api/proxy/detail").permitAll()
+                .requestMatchers("/api/download/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/extensions").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/extensions/load").hasAuthority("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/api/extensions/**").hasAuthority("ADMIN")

@@ -9,6 +9,7 @@
       <a routerLink="/" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Khám phá</a>
       <a *ngIf="authService.isAuthenticated()" routerLink="/library" class="nav-link" routerLinkActive="active">Thư viện</a>
       <a routerLink="/history" class="nav-link" routerLinkActive="active">📚 Lịch sử</a>
+      <a routerLink="/downloads" class="nav-link" routerLinkActive="active">📥 Đã tải</a>
       <a *ngIf="authService.isAdmin()" routerLink="/admin" class="nav-link admin-link" routerLinkActive="active">⚙️ Quản trị</a>
     </nav>
 
