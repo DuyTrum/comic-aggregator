@@ -3,18 +3,28 @@
   <!-- Navigation Top Bar -->
   <header class="viewer-header">
     <div class="header-left">
-      <a [routerLink]="['/comic', comicId]" class="back-btn">← Thoát</a>
+      <a [routerLink]="['/comic', comicId]" class="back-btn">
+        <span class="material-symbols-outlined" style="font-size: 1.15rem; vertical-align: middle;">arrow_back</span>
+        <span>Thoát</span>
+      </a>
       <span class="comic-name">{{ comic?.title }}</span>
     </div>
     
     <div class="chapter-nav-center">
-      <button (click)="goToPrevChapter()" [disabled]="getCurrentChapterIndex() === 0" class="nav-arrow-btn">◀</button>
+      <button (click)="goToPrevChapter()" [disabled]="getCurrentChapterIndex() === 0" class="nav-arrow-btn" style="display: flex; align-items: center; justify-content: center;">
+        <span class="material-symbols-outlined" style="font-size: 1.25rem;">chevron_left</span>
+      </button>
       <span class="current-chapter-title">{{ currentChapter?.title }}</span>
-      <button (click)="goToNextChapter()" [disabled]="getCurrentChapterIndex() === chapters.length - 1" class="nav-arrow-btn">▶</button>
+      <button (click)="goToNextChapter()" [disabled]="getCurrentChapterIndex() === chapters.length - 1" class="nav-arrow-btn" style="display: flex; align-items: center; justify-content: center;">
+        <span class="material-symbols-outlined" style="font-size: 1.25rem;">chevron_right</span>
+      </button>
     </div>
 
     <div class="header-right">
-      <button (click)="showSettings = !showSettings" class="btn-secondary settings-btn">⚙️ Tùy chỉnh</button>
+      <button (click)="showSettings = !showSettings" class="btn-secondary settings-btn">
+        <span class="material-symbols-outlined btn-icon">tune</span>
+        <span>Tùy chỉnh</span>
+      </button>
     </div>
   </header>
 
@@ -91,14 +101,18 @@
     <!-- MANGA MODE (Horizontal/Page swiping) -->
     <div *ngIf="mode === 'manga'" class="manga-container">
       <div class="manga-slide-wrapper">
-        <button (click)="prevMangaPage()" class="manga-nav-side prev">◀</button>
+        <button (click)="prevMangaPage()" class="manga-nav-side prev" style="display: flex; align-items: center; justify-content: center;">
+          <span class="material-symbols-outlined">chevron_left</span>
+        </button>
         
         <div class="manga-page-box" [class.align-left]="alignment === 'left'">
           <img [src]="pages[currentMangaPageIndex].url" [alt]="'Manga Page ' + (currentMangaPageIndex + 1)" class="manga-page-img">
           <div class="page-indicator">Trang {{ currentMangaPageIndex + 1 }} / {{ pages.length }}</div>
         </div>
-
-        <button (click)="nextMangaPage()" class="manga-nav-side next">▶</button>
+ 
+        <button (click)="nextMangaPage()" class="manga-nav-side next" style="display: flex; align-items: center; justify-content: center;">
+          <span class="material-symbols-outlined">chevron_right</span>
+        </button>
       </div>
     </div>
 

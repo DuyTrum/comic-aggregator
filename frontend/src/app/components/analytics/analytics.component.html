@@ -2,7 +2,10 @@
   
   <!-- Header Title -->
   <div class="analytics-header card-glass">
-    <h2>📊 Phân Tích & Thống Kê Cá Nhân</h2>
+    <h2>
+      <span class="material-symbols-outlined panel-title-icon" style="font-size: 2.2rem !important; margin-right: 8px;">monitoring</span>
+      <span>Phân Tích & Thống Kê Cá Nhân</span>
+    </h2>
     <p>Tổng hợp thông tin thói quen đọc truyện, thể loại yêu thích và nguồn tài nguyên bạn sử dụng nhiều nhất.</p>
   </div>
 
@@ -15,7 +18,9 @@
     
     <!-- Empty State -->
     <div *ngIf="totalUniqueComics() === 0" class="empty-state card-glass">
-      <div class="empty-icon">📊</div>
+      <div class="empty-icon">
+        <span class="material-symbols-outlined empty-icon-svg" style="font-size: 4.5rem; color: var(--text-muted); display: block; margin-bottom: 12px;">monitoring</span>
+      </div>
       <h3>Chưa có dữ liệu thống kê</h3>
       <p>Hãy đọc một vài chương truyện để hệ thống có thể phân tích thói quen đọc truyện của bạn.</p>
       <a routerLink="/" class="btn-primary mt-3">Khám phá truyện ngay</a>
@@ -27,7 +32,9 @@
       <!-- Summary Grid Cards -->
       <div class="metrics-grid">
         <div class="metric-card card-glass">
-          <div class="metric-icon">📚</div>
+          <div class="metric-icon" style="display: flex; align-items: center; justify-content: center;">
+            <span class="material-symbols-outlined" style="font-size: 2.2rem; color: var(--accent);">menu_book</span>
+          </div>
           <div class="metric-info">
             <span class="metric-value">{{ totalUniqueComics() }}</span>
             <span class="metric-label">Đầu truyện đã đọc</span>
@@ -35,7 +42,9 @@
         </div>
 
         <div class="metric-card card-glass">
-          <div class="metric-icon">⭐</div>
+          <div class="metric-icon" style="display: flex; align-items: center; justify-content: center;">
+            <span class="material-symbols-outlined" style="font-size: 2.2rem; color: var(--accent);">star</span>
+          </div>
           <div class="metric-info">
             <span class="metric-value">{{ totalBookmarks }}</span>
             <span class="metric-label">Truyện yêu thích (Thư viện)</span>
@@ -43,7 +52,9 @@
         </div>
 
         <div class="metric-card card-glass">
-          <div class="metric-icon">🔌</div>
+          <div class="metric-icon" style="display: flex; align-items: center; justify-content: center;">
+            <span class="material-symbols-outlined" style="font-size: 2.2rem; color: var(--accent);">extension</span>
+          </div>
           <div class="metric-info">
             <span class="metric-value">{{ sourceStats().length }}</span>
             <span class="metric-label">Nguồn truyện đã đọc</span>
@@ -56,7 +67,10 @@
         
         <!-- Top Genres Chart (CSS Bar Chart) -->
         <div class="chart-box card-glass">
-          <h3 class="chart-title">🔥 Thể Loại Đọc Nhiều Nhất</h3>
+          <h3 class="chart-title" style="display: flex; align-items: center; gap: 8px;">
+            <span class="material-symbols-outlined" style="color: #ef4444; font-size: 1.5rem !important;">local_fire_department</span>
+            <span>Thể Loại Đọc Nhiều Nhất</span>
+          </h3>
           <p class="chart-subtitle">Tỷ lệ % các bộ truyện bạn đã đọc có gắn các thẻ thể loại này.</p>
           
           <div class="genres-list mt-3">
@@ -77,7 +91,10 @@
 
         <!-- Source Distribution -->
         <div class="chart-box card-glass">
-          <h3 class="chart-title">🔌 Phân Bố Theo Nguồn Truyện</h3>
+          <h3 class="chart-title" style="display: flex; align-items: center; gap: 8px;">
+            <span class="material-symbols-outlined" style="color: var(--accent); font-size: 1.5rem !important;">extension</span>
+            <span>Phân Bố Theo Nguồn Truyện</span>
+          </h3>
           <p class="chart-subtitle">Tỷ lệ các chương truyện bạn đã đọc đến từ các nguồn khác nhau.</p>
 
           <div class="sources-list mt-3">
@@ -97,7 +114,10 @@
 
       <!-- Recent Reads section -->
       <div class="recent-reads-section mt-4 card-glass">
-        <h3 class="chart-title">📈 Hoạt Động Đọc Gần Đây</h3>
+        <h3 class="chart-title" style="display: flex; align-items: center; gap: 8px;">
+          <span class="material-symbols-outlined" style="color: var(--accent); font-size: 1.5rem !important;">trending_up</span>
+          <span>Hoạt Động Đọc Gần Đây</span>
+        </h3>
         <p class="chart-subtitle">Danh sách 3 bộ truyện bạn vừa đọc gần đây nhất.</p>
 
         <div class="recent-grid mt-3">

@@ -1,17 +1,35 @@
 <header *ngIf="!isReaderPage()" class="navbar-container">
   <div class="nav-content">
     <a routerLink="/" class="logo-link">
-      <span class="logo-icon">⚡</span>
+      <span class="material-symbols-outlined logo-icon-svg">bolt</span>
       <span class="logo-text">Comic<span class="highlight">Aggregator</span></span>
     </a>
 
     <nav class="nav-links">
-      <a routerLink="/" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Khám phá</a>
-      <a *ngIf="authService.isAuthenticated()" routerLink="/library" class="nav-link" routerLinkActive="active">Thư viện</a>
-      <a routerLink="/history" class="nav-link" routerLinkActive="active">📚 Lịch sử</a>
-      <a routerLink="/downloads" class="nav-link" routerLinkActive="active">📥 Đã tải</a>
-      <a *ngIf="authService.isAuthenticated()" routerLink="/analytics" class="nav-link" routerLinkActive="active">📊 Thống kê</a>
-      <a *ngIf="authService.isAdmin()" routerLink="/admin" class="nav-link admin-link" routerLinkActive="active">⚙️ Quản trị</a>
+      <a routerLink="/" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <span class="material-symbols-outlined nav-icon">explore</span>
+        <span>Khám phá</span>
+      </a>
+      <a *ngIf="authService.isAuthenticated()" routerLink="/library" class="nav-link" routerLinkActive="active">
+        <span class="material-symbols-outlined nav-icon">auto_stories</span>
+        <span>Thư viện</span>
+      </a>
+      <a routerLink="/history" class="nav-link" routerLinkActive="active">
+        <span class="material-symbols-outlined nav-icon">history</span>
+        <span>Lịch sử</span>
+      </a>
+      <a routerLink="/downloads" class="nav-link" routerLinkActive="active">
+        <span class="material-symbols-outlined nav-icon">download</span>
+        <span>Đã tải</span>
+      </a>
+      <a *ngIf="authService.isAuthenticated()" routerLink="/analytics" class="nav-link" routerLinkActive="active">
+        <span class="material-symbols-outlined nav-icon">monitoring</span>
+        <span>Thống kê</span>
+      </a>
+      <a *ngIf="authService.isAdmin()" routerLink="/admin" class="nav-link admin-link" routerLinkActive="active">
+        <span class="material-symbols-outlined nav-icon">settings</span>
+        <span>Quản trị</span>
+      </a>
     </nav>
 
     <div class="nav-actions">

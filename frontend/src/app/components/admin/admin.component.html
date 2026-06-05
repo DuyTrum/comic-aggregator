@@ -1,6 +1,9 @@
 <div class="admin-container">
   <div class="admin-header card-glass">
-    <h2>⚙️ Bảng Điều Khiển Quản Trị</h2>
+    <h2>
+      <span class="material-symbols-outlined panel-title-icon" style="font-size: 1.8rem !important; margin-right: 8px;">settings</span>
+      <span>Bảng Điều Khiển Quản Trị</span>
+    </h2>
     <p>Quản lý người dùng, cài đặt nguồn thu thập truyện và chỉnh sửa code cào trực tuyến.</p>
   </div>
 
@@ -9,31 +12,38 @@
       (click)="switchTab('users')" 
       [class.active]="activeTab === 'users'" 
       class="tab-btn">
-      👥 Người Dùng
+      <span class="material-symbols-outlined btn-icon">group</span>
+      <span>Người Dùng</span>
     </button>
     <button 
       (click)="switchTab('extensions')" 
       [class.active]="activeTab === 'extensions'" 
       class="tab-btn">
-      🔌 Danh Sách Nguồn
+      <span class="material-symbols-outlined btn-icon">extension</span>
+      <span>Danh Sách Nguồn</span>
     </button>
     <button 
       (click)="switchTab('editor')" 
       [class.active]="activeTab === 'editor'" 
       class="tab-btn">
-      📝 Sửa Code Scraper
+      <span class="material-symbols-outlined btn-icon">code</span>
+      <span>Sửa Code Scraper</span>
     </button>
     <button 
       (click)="switchTab('cache')" 
       [class.active]="activeTab === 'cache'" 
       class="tab-btn">
-      💾 Bộ Nhớ Đệm (Cache)
+      <span class="material-symbols-outlined btn-icon">database</span>
+      <span>Bộ Nhớ Đệm (Cache)</span>
     </button>
   </div>
 
   <!-- USER MANAGEMENT TAB -->
   <div *ngIf="activeTab === 'users'" class="admin-panel card-glass">
-    <h3>👥 Quản Lý Người Dùng</h3>
+    <h3>
+      <span class="material-symbols-outlined panel-title-icon">group</span>
+      <span>Quản Lý Người Dùng</span>
+    </h3>
     
     <div *ngIf="userMessage" class="alert alert-success">{{ userMessage }}</div>
     <div *ngIf="userError" class="alert alert-danger">{{ userError }}</div>
@@ -87,7 +97,10 @@
 
   <!-- EXTENSIONS TAB -->
   <div *ngIf="activeTab === 'extensions'" class="admin-panel card-glass">
-    <h3>🔌 Cài Đặt Nguồn Scraper</h3>
+    <h3>
+      <span class="material-symbols-outlined panel-title-icon">extension</span>
+      <span>Cài Đặt Nguồn Scraper</span>
+    </h3>
     
     <div class="add-extension-box">
       <h4>Tải thêm Extension từ URL</h4>
@@ -121,7 +134,10 @@
         </thead>
         <tbody>
           <tr *ngFor="let ext of extensions">
-            <td class="ext-name-cell">🔌 {{ ext.name }}</td>
+            <td class="ext-name-cell" style="display: flex; align-items: center; gap: 8px;">
+              <span class="material-symbols-outlined" style="font-size: 1.2rem;">extension</span>
+              <span>{{ ext.name }}</span>
+            </td>
             <td>v{{ ext.version }}</td>
             <td class="url-cell" title="{{ ext.sourceUrl }}">{{ ext.sourceUrl }}</td>
             <td>{{ ext.updatedAt | date:'dd/MM/yyyy HH:mm' }}</td>
@@ -141,7 +157,10 @@
 
   <!-- EDITOR TAB -->
   <div *ngIf="activeTab === 'editor'" class="admin-panel card-glass">
-    <h3>📝 Trình Sửa Code Scraper Trực Tuyến</h3>
+    <h3>
+      <span class="material-symbols-outlined panel-title-icon">code</span>
+      <span>Trình Sửa Code Scraper Trực Tuyến</span>
+    </h3>
     
     <div class="editor-controls">
       <div class="control-group">
@@ -160,16 +179,20 @@
         [disabled]="isSavingCode || !selectedExtensionId" 
         class="btn-primary btn-save">
         <span *ngIf="isSavingCode" class="spinner-small"></span>
-        💾 Lưu Mã Nguồn
+        <span class="material-symbols-outlined btn-icon">save</span>
+        <span>Lưu Mã Nguồn</span>
       </button>
     </div>
 
     <div *ngIf="editorMessage" class="alert alert-success mt-2">{{ editorMessage }}</div>
     <div *ngIf="editorError" class="alert alert-danger mt-2">{{ editorError }}</div>
 
-    <div class="warning-box">
-      ⚠️ <strong>Cảnh báo bảo mật và tính đúng đắn:</strong> Hãy đảm bảo script cào hoạt động chính xác trước khi Lưu. 
-      Hệ thống sẽ chạy thử hàm <code>getMetadata</code> để xác thực cú pháp JS. Viết sai code có thể khiến nguồn đọc truyện bị ngưng trệ.
+    <div class="warning-box" style="display: flex; align-items: flex-start; gap: 8px;">
+      <span class="material-symbols-outlined" style="color: #f59e0b; font-size: 1.35rem; flex-shrink: 0; margin-top: 1px;">warning</span>
+      <div>
+        <strong>Cảnh báo bảo mật và tính đúng đắn:</strong> Hãy đảm bảo script cào hoạt động chính xác trước khi Lưu. 
+        Hệ thống sẽ chạy thử hàm <code>getMetadata</code> để xác thực cú pháp JS. Viết sai code có thể khiến nguồn đọc truyện bị ngưng trệ.
+      </div>
     </div>
 
     <div class="editor-area">
@@ -187,7 +210,10 @@
 
   <!-- CACHE MANAGEMENT TAB -->
   <div *ngIf="activeTab === 'cache'" class="admin-panel card-glass">
-    <h3>💾 Quản Lý Bộ Nhớ Đệm Hình Ảnh (Image Cache)</h3>
+    <h3>
+      <span class="material-symbols-outlined panel-title-icon">database</span>
+      <span>Quản Lý Bộ Nhớ Đệm Hình Ảnh (Image Cache)</span>
+    </h3>
     <p class="text-secondary">Hệ thống lưu đệm (cache) cục bộ các ảnh chương truyện từ nguồn gốc để tăng tốc độ tải trang và vượt rào cản referrer của các site nguồn.</p>
 
     <div *ngIf="cacheMessage" class="alert alert-success">{{ cacheMessage }}</div>
@@ -195,16 +221,20 @@
 
     <div class="cache-stats-container">
       <div class="cache-stat-card">
-        <div class="stat-icon">🖼️</div>
+        <div class="stat-icon" style="display: flex; align-items: center; justify-content: center;">
+          <span class="material-symbols-outlined" style="font-size: 2.2rem; color: var(--accent);">image</span>
+        </div>
         <div class="stat-info">
           <span class="stat-label">Số lượng tệp lưu đệm</span>
           <span class="stat-val" *ngIf="!isLoadingCache && cacheStats">{{ cacheStats.fileCount }} tệp ảnh</span>
           <span class="stat-val" *ngIf="isLoadingCache"><span class="spinner-small"></span></span>
         </div>
       </div>
-
+ 
       <div class="cache-stat-card">
-        <div class="stat-icon">💾</div>
+        <div class="stat-icon" style="display: flex; align-items: center; justify-content: center;">
+          <span class="material-symbols-outlined" style="font-size: 2.2rem; color: var(--accent);">database</span>
+        </div>
         <div class="stat-info">
           <span class="stat-label">Tổng dung lượng sử dụng</span>
           <span class="stat-val" *ngIf="!isLoadingCache && cacheStats">{{ cacheStats.sizeMb }} MB</span>
@@ -218,14 +248,16 @@
         (click)="fetchCacheStats()" 
         [disabled]="isLoadingCache || isClearingCache" 
         class="btn-secondary">
-        🔄 Làm Mới Thống Kê
+        <span class="material-symbols-outlined btn-icon">refresh</span>
+        <span>Làm Mới Thống Kê</span>
       </button>
-
+ 
       <button 
         (click)="clearCache()" 
         [disabled]="isClearingCache || (cacheStats && cacheStats.fileCount === 0)" 
         class="btn-primary btn-delete-cache">
-        🗑️ Xóa Toàn Bộ Cache
+        <span class="material-symbols-outlined btn-icon">delete_sweep</span>
+        <span>Xóa Toàn Bộ Cache</span>
       </button>
     </div>
   </div>

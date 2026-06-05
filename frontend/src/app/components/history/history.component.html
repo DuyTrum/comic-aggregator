@@ -1,11 +1,15 @@
 <div class="history-container">
   <div class="history-header">
-    <h1>📚 Lịch Sử Đọc Truyện</h1>
+    <h1>
+      <span class="material-symbols-outlined panel-title-icon" style="font-size: 2rem !important;">history</span>
+      <span>Lịch Sử Đọc Truyện</span>
+    </h1>
     <button 
       *ngIf="history.length > 0" 
       class="clear-btn" 
       (click)="clearAll()">
-      🗑️ Xóa Tất Cả
+      <span class="material-symbols-outlined btn-icon">delete_forever</span>
+      <span>Xóa Tất Cả</span>
     </button>
   </div>
 
@@ -15,7 +19,9 @@
   </div>
 
   <div *ngIf="!loading && history.length === 0" class="empty-state">
-    <div class="empty-icon">📖</div>
+    <div class="empty-icon">
+      <span class="material-symbols-outlined empty-icon-svg" style="font-size: 4.5rem; color: var(--text-muted); display: block; margin-bottom: 12px;">menu_book</span>
+    </div>
     <h2>Chưa có lịch sử đọc truyện</h2>
     <p>Bắt đầu đọc truyện để xem lịch sử tại đây</p>
     <button class="primary-btn" routerLink="/dashboard">Khám Phá Truyện</button>
@@ -39,10 +45,11 @@
         
         <div class="card-actions">
           <button class="continue-btn" (click)="continueReading(item)">
-            ▶️ Đọc Tiếp
+            <span class="material-symbols-outlined btn-icon">play_arrow</span>
+            <span>Đọc Tiếp</span>
           </button>
           <button class="delete-btn" (click)="deleteItem(item)" title="Xóa">
-            🗑️
+            <span class="material-symbols-outlined" style="font-size: 1.25rem !important;">delete</span>
           </button>
         </div>
       </div>

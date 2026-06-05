@@ -23,12 +23,14 @@
       <div class="action-buttons-group">
         <!-- Advanced Filters Toggle Button -->
         <button (click)="toggleFilterPanel()" class="btn-secondary filter-toggle-btn" [class.active]="showFilterPanel">
-          <span>🔍</span> {{ showFilterPanel ? 'Ẩn bộ lọc' : 'Bộ lọc nâng cao' }}
+          <span class="material-symbols-outlined btn-icon">tune</span>
+          <span>{{ showFilterPanel ? 'Ẩn bộ lọc' : 'Bộ lọc nâng cao' }}</span>
         </button>
 
         <!-- Extension Panel Toggle Button -->
         <button (click)="toggleExtensionPanel()" class="btn-secondary ext-manager-btn">
-          <span>⚙️</span> {{ showExtensionPanel ? 'Đóng quản lý' : 'Quản lý Extension' }}
+          <span class="material-symbols-outlined btn-icon">extension</span>
+          <span>{{ showExtensionPanel ? 'Đóng quản lý' : 'Quản lý Extension' }}</span>
         </button>
       </div>
     </div>
@@ -64,7 +66,10 @@
 
     <!-- Collapsible Advanced Filter Panel -->
     <div *ngIf="showFilterPanel" class="filter-panel card-glass">
-      <h3 class="panel-title">⚙️ Bộ Lọc Truyện Nâng Cao</h3>
+      <h3 class="panel-title">
+        <span class="material-symbols-outlined panel-title-icon">tune</span>
+        <span>Bộ Lọc Truyện Nâng Cao</span>
+      </h3>
       
       <div class="filter-grid">
         <!-- Status Filter -->
@@ -106,7 +111,8 @@
       <!-- Clear Filters Button -->
       <div class="filter-actions mt-3">
         <button (click)="clearFilters()" class="btn-secondary btn-clear-filters">
-          🗑️ Xóa toàn bộ bộ lọc
+          <span class="material-symbols-outlined btn-icon">restart_alt</span>
+          <span>Xóa toàn bộ bộ lọc</span>
         </button>
       </div>
     </div>
@@ -115,7 +121,8 @@
     <form (ngSubmit)="onSearch()" class="search-form">
       <input type="text" [(ngModel)]="searchQuery" name="search" class="input-field search-input" placeholder="Tìm kiếm truyện trong nguồn {{ selectedSource }}...">
       <button type="submit" class="btn-primary">
-        <span>🔍</span> Tìm kiếm
+        <span class="material-symbols-outlined btn-icon">search</span>
+        <span>Tìm kiếm</span>
       </button>
     </form>
   </div>

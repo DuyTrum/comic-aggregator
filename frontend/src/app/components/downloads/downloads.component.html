@@ -1,6 +1,9 @@
 <div class="downloads-container">
   <div class="downloads-header">
-    <h1>📥 Truyện Đã Tải Ngoại Tuyến</h1>
+    <h1>
+      <span class="material-symbols-outlined panel-title-icon" style="font-size: 2.2rem !important;">download</span>
+      <span>Truyện Đã Tải Ngoại Tuyến</span>
+    </h1>
     <p class="subtitle">Đọc truyện mượt mà không cần kết nối mạng internet.</p>
   </div>
 
@@ -10,7 +13,9 @@
   </div>
 
   <div *ngIf="!isLoading && groupedDownloads.length === 0" class="empty-state card-glass">
-    <div class="empty-icon">📥</div>
+    <div class="empty-icon">
+      <span class="material-symbols-outlined empty-icon-svg" style="font-size: 4.5rem; color: var(--text-muted); display: block; margin-bottom: 12px;">download</span>
+    </div>
     <h2>Thư viện tải xuống trống</h2>
     <p>Tải xuống các chương truyện để có thể đọc ngoại tuyến bất cứ khi nào.</p>
     <button class="primary-btn" routerLink="/">Khám Phá Truyện</button>
@@ -31,12 +36,15 @@
       
       <div class="chapters-list">
         <div *ngFor="let ch of comic.chapters" class="chapter-row" (click)="readChapter(comic.comicId, ch.chapterId)">
-          <div class="chapter-info">
-            <span class="chapter-title">▶️ {{ ch.chapterTitle }}</span>
+          <div class="chapter-info" style="display: flex; flex-direction: column; gap: 4px;">
+            <span class="chapter-title" style="display: flex; align-items: center; gap: 4px;">
+              <span class="material-symbols-outlined" style="font-size: 1.1rem !important; color: var(--accent);">play_arrow</span>
+              <span>{{ ch.chapterTitle }}</span>
+            </span>
             <span class="downloaded-time">Đã tải: {{ formatDate(ch.downloadedAt) }}</span>
           </div>
           <button class="delete-btn" (click)="deleteChapter(ch.chapterId, $event)" title="Xóa bản tải">
-            🗑️
+            <span class="material-symbols-outlined" style="font-size: 1.1rem !important;">delete</span>
           </button>
         </div>
       </div>

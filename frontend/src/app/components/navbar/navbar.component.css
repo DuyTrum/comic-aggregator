@@ -29,8 +29,10 @@
   font-weight: 700;
 }
 
-.logo-icon {
-  font-size: 1.5rem;
+.logo-icon-svg {
+  font-size: 1.8rem;
+  color: var(--accent);
+  text-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
 }
 
 .logo-text {
@@ -43,7 +45,7 @@
 
 .nav-links {
   display: flex;
-  gap: 24px;
+  gap: 20px;
 }
 
 .nav-link {
@@ -53,6 +55,14 @@
   transition: var(--transition);
   padding: 6px 12px;
   border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.95rem;
+}
+
+.nav-icon {
+  font-size: 1.25rem !important;
 }
 
 .nav-link:hover {

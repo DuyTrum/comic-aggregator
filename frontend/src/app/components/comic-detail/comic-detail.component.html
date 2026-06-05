@@ -4,7 +4,10 @@
 
 <div *ngIf="!isLoading && comic" class="detail-container">
   <!-- Back button -->
-  <a routerLink="/" class="back-link">← Quay lại trang chủ</a>
+  <a routerLink="/" class="back-link">
+    <span class="material-symbols-outlined back-icon" style="font-size: 1.1rem; vertical-align: middle; margin-right: 4px;">arrow_back</span>
+    <span>Quay lại trang chủ</span>
+  </a>
 
   <!-- Comic Info Header -->
   <div class="comic-header card-glass">
@@ -31,7 +34,10 @@
 
         <!-- Bookmark Button -->
         <button (click)="toggleBookmark()" class="btn-secondary" [class.active]="isBookmarked">
-          <span>{{ isBookmarked ? '❤️ Đã theo dõi' : '🤍 Theo dõi' }}</span>
+          <span class="material-symbols-outlined btn-icon" [style.color]="isBookmarked ? '#ef4444' : 'inherit'">
+            {{ isBookmarked ? 'favorite' : 'favorite_border' }}
+          </span>
+          <span>{{ isBookmarked ? 'Đã theo dõi' : 'Theo dõi' }}</span>
         </button>
       </div>
     </div>
@@ -63,19 +69,29 @@
         <div class="chapter-row-right">
           <!-- Download Actions -->
           <ng-container [ngSwitch]="downloadedChaptersMap.get(chapter.id)?.status">
-            <span *ngSwitchCase="'PENDING'" class="download-status pending" title="Đang chờ tải...">⏳ Chờ...</span>
+            <span *ngSwitchCase="'PENDING'" class="download-status pending" title="Đang chờ tải...">
+              <span class="material-symbols-outlined rotating" style="font-size: 1.1rem !important; vertical-align: middle; margin-right: 4px;">progress_activity</span>
+              <span>Chờ...</span>
+            </span>
             <span *ngSwitchCase="'DOWNLOADING'" class="download-status downloading" title="Đang tải...">
-              ⏳ {{ getDownloadPercent(chapter.id) }}%
+              <span class="material-symbols-outlined rotating" style="font-size: 1.1rem !important; vertical-align: middle; margin-right: 4px;">progress_activity</span>
+              <span>{{ getDownloadPercent(chapter.id) }}%</span>
             </span>
             <span *ngSwitchCase="'COMPLETED'" class="download-status completed" title="Đã tải xuống">
-              ✅
-              <button class="btn-delete-download" (click)="deleteDownload(chapter.id, $event)" title="Xóa bản tải">🗑️</button>
+              <span class="material-symbols-outlined" style="color: var(--success); font-size: 1.2rem !important; vertical-align: middle;">check_circle</span>
+              <button class="btn-delete-download" (click)="deleteDownload(chapter.id, $event)" title="Xóa bản tải">
+                <span class="material-symbols-outlined" style="font-size: 1.1rem !important; color: var(--danger);">delete</span>
+              </button>
             </span>
             <span *ngSwitchCase="'FAILED'" class="download-status failed" title="Tải lỗi">
-              ❌
-              <button class="btn-download" (click)="downloadChapter(chapter, $event)" title="Tải lại">📥</button>
+              <span class="material-symbols-outlined" style="color: var(--danger); font-size: 1.2rem !important; vertical-align: middle;">cancel</span>
+              <button class="btn-download" (click)="downloadChapter(chapter, $event)" title="Tải lại">
+                <span class="material-symbols-outlined" style="font-size: 1.1rem !important;">download</span>
+              </button>
             </span>
-            <button *ngSwitchDefault class="btn-download" (click)="downloadChapter(chapter, $event)" title="Tải về máy">📥</button>
+            <button *ngSwitchDefault class="btn-download" (click)="downloadChapter(chapter, $event)" title="Tải về máy">
+              <span class="material-symbols-outlined" style="font-size: 1.1rem !important;">download</span>
+            </button>
           </ng-container>
         </div>
       </a>

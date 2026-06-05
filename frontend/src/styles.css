@@ -125,6 +125,27 @@ body {
   border-color: var(--text-secondary);
 }
 
+.btn-icon {
+  font-size: 1.25rem !important;
+  line-height: 1;
+}
+
+.panel-title-icon {
+  font-size: 1.4rem !important;
+  vertical-align: middle;
+  display: inline-flex;
+  align-items: center;
+}
+
+.rotating {
+  animation: global-spin 1.5s linear infinite;
+  display: inline-block;
+}
+
+@keyframes global-spin {
+  to { transform: rotate(360deg); }
+}
+
 .input-field {
   background-color: rgba(18, 18, 26, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.08);
