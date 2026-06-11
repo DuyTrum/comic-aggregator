@@ -5,4 +5,4 @@ import { isDevMode } from '@angular/core';
 // Bạn chỉ cần thay thế URL production dưới đây sau khi deploy xong backend.
 export const API_BASE_URL = (isDevMode()
   ? 'http://localhost:8080'
-  : 'https://comic-duytrum.loca.lt/').replace(/\/$/, ''); // Tự động loại bỏ dấu gạch chéo ở cuối nếu có
+  : 'https://comic-aggregator-duy-trum.loca.lt/').replace(/\/$/, ''); // Tự động loại bỏ dấu gạch chéo ở cuối nếu có

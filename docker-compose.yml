@@ -22,6 +22,6 @@ services:
     image: node:20-alpine
     container_name: comic-tunnel
     restart: always
-    command: npx localtunnel --port 8080 --local-host backend --subdomain comic-duytrum
+    command: npx localtunnel --port 8080 --local-host backend --subdomain comic-aggregator-duy-trum
     depends_on:
       - backend
