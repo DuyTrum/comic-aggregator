@@ -35,5 +35,13 @@ services:
     depends_on:
       - db
 
+  tunnel:
+    image: node:20-alpine
+    container_name: comic-tunnel
+    restart: always
+    command: npx localtunnel --port 8080 --local-host backend --subdomain comic-duytrum
+    depends_on:
+      - backend
+
 volumes:
   pgdata:
