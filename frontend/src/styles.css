@@ -1,9 +1,9 @@
 /* Unified Premium Design System Tokens */
 :root {
   /* Colors */
-  --bg-primary: #0a0a0f;
-  --bg-secondary: #12121a;
-  --bg-tertiary: #1b1b26;
+  --bg-primary: #18181c;
+  --bg-secondary: #202026;
+  --bg-tertiary: #282830;
   
   --text-primary: #f3f4f6;
   --text-secondary: #9ca3af;
@@ -13,7 +13,7 @@
   --accent-hover: #7c3aed;
   --accent-glow: rgba(139, 92, 246, 0.15);
   
-  --border: #232333;
+  --border: #32323f;
   --border-focus: #4c1d95;
   
   --danger: #ef4444;
@@ -67,7 +67,7 @@ body {
 
 /* Shared Premium Utility Classes */
 .card-glass {
-  background-color: rgba(18, 18, 26, 0.7);
+  background-color: rgba(32, 32, 38, 0.7);
   backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: var(--radius-lg);
@@ -93,6 +93,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  text-decoration: none;
 }
 
 .btn-primary:hover {
@@ -118,6 +119,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  text-decoration: none;
 }
 
 .btn-secondary:hover {
@@ -147,7 +149,7 @@ body {
 }
 
 .input-field {
-  background-color: rgba(18, 18, 26, 0.6);
+  background-color: rgba(32, 32, 38, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 50px; /* Pill shape */
   color: var(--text-primary);

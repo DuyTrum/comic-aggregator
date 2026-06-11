@@ -29,10 +29,21 @@
   font-weight: 700;
 }
 
-.logo-icon-svg {
-  font-size: 1.8rem;
-  color: var(--accent);
-  text-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+.logo-img {
+  height: 36px;
+  width: 36px;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 1.5px solid rgba(139, 92, 246, 0.25);
+  background-color: var(--bg-tertiary);
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.15);
+  transition: var(--transition);
+}
+
+.logo-link:hover .logo-img {
+  border-color: var(--accent);
+  transform: scale(1.08) rotate(4deg);
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
 }
 
 .logo-text {
