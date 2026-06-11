@@ -128,6 +128,10 @@ export class ComicService {
     if (originalUrl.startsWith('http://localhost') || originalUrl.startsWith('data:')) {
       return originalUrl;
     }
+    // MangaDex has no hotlinking protection, so we load directly from their CDN to speed up
+    if (originalUrl.includes('mangadex.org')) {
+      return originalUrl;
+    }
     return `${API_BASE_URL}/api/proxy/image?url=${encodeURIComponent(originalUrl)}`;
   }
 
