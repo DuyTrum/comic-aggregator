@@ -14,7 +14,14 @@
       <button (click)="goToPrevChapter()" [disabled]="getCurrentChapterIndex() === 0" class="nav-arrow-btn" style="display: flex; align-items: center; justify-content: center;">
         <span class="material-symbols-outlined" style="font-size: 1.25rem;">chevron_left</span>
       </button>
-      <span class="current-chapter-title">{{ currentChapter?.title }}</span>
+      <div class="select-wrapper">
+        <select [ngModel]="chapterId" (ngModelChange)="onChapterSelect($event)" class="chapter-select">
+          <option *ngFor="let chap of chapters" [value]="chap.id">
+            {{ chap.title }}
+          </option>
+        </select>
+        <span class="material-symbols-outlined dropdown-arrow">arrow_drop_down</span>
+      </div>
       <button (click)="goToNextChapter()" [disabled]="getCurrentChapterIndex() === chapters.length - 1" class="nav-arrow-btn" style="display: flex; align-items: center; justify-content: center;">
         <span class="material-symbols-outlined" style="font-size: 1.25rem;">chevron_right</span>
       </button>

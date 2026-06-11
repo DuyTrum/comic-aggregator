@@ -76,9 +76,87 @@
   cursor: not-allowed;
 }
 
-.current-chapter-title {
-  font-weight: 500;
+/* Chapter Dropdown Select Styling */
+.select-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.chapter-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  padding: 6px 36px 6px 16px;
+  border-radius: 20px;
+  font-family: inherit;
   font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: var(--transition);
+  text-align: center;
+  min-width: 140px;
+  max-width: 240px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.chapter-select:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: var(--accent);
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.chapter-select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 12px var(--accent-glow);
+}
+
+.dropdown-arrow {
+  position: absolute;
+  right: 12px;
+  color: var(--text-secondary);
+  pointer-events: none;
+  font-size: 1.25rem !important;
+  transition: var(--transition);
+}
+
+.chapter-select:hover + .dropdown-arrow,
+.chapter-select:focus + .dropdown-arrow {
+  color: var(--accent);
+}
+
+/* Sepia Theme Adjustments */
+.viewer-layout.theme-sepia .chapter-select {
+  background-color: rgba(67, 52, 34, 0.05) !important;
+  color: #433422 !important;
+  border-color: #d8cdb4 !important;
+}
+.viewer-layout.theme-sepia .dropdown-arrow {
+  color: #433422 !important;
+}
+.viewer-layout.theme-sepia .chapter-select:hover {
+  background-color: rgba(67, 52, 34, 0.1) !important;
+  border-color: var(--accent) !important;
+}
+
+/* Light Theme Adjustments */
+.viewer-layout.theme-light .chapter-select {
+  background-color: #f3f4f6 !important;
+  color: #111827 !important;
+  border-color: #e5e7eb !important;
+}
+.viewer-layout.theme-light .dropdown-arrow {
+  color: #6b7280 !important;
+}
+.viewer-layout.theme-light .chapter-select:hover {
+  background-color: #e5e7eb !important;
+  border-color: var(--accent) !important;
 }
 
 /* Settings Menu Float */
@@ -367,7 +445,6 @@
 }
 .viewer-layout.theme-sepia .viewer-header .back-btn,
 .viewer-layout.theme-sepia .viewer-header .comic-name,
-.viewer-layout.theme-sepia .viewer-header .current-chapter-title,
 .viewer-layout.theme-sepia .viewer-header .nav-arrow-btn {
   color: #433422;
 }
@@ -400,7 +477,6 @@
 }
 .viewer-layout.theme-light .viewer-header .back-btn,
 .viewer-layout.theme-light .viewer-header .comic-name,
-.viewer-layout.theme-light .viewer-header .current-chapter-title,
 .viewer-layout.theme-light .viewer-header .nav-arrow-btn {
   color: #111827;
 }

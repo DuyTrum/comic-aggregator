@@ -537,4 +537,10 @@ export class ViewerComponent implements OnInit, OnDestroy {
       this.router.navigate(['/read', this.comicId, nextCh.id]);
     }
   }
+
+  onChapterSelect(newChapterId: string) {
+    if (newChapterId && newChapterId !== this.chapterId) {
+      this.router.navigate(['/read', this.comicId, newChapterId]);
+    }
+  }
 }
