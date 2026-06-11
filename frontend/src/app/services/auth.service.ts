@@ -1,6 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, tap, catchError, of } from 'rxjs';
+import { API_BASE_URL } from '../config';
 
 export interface AuthResponse {
   token: string;
@@ -13,7 +14,7 @@ export interface AuthResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080/api/auth';
+  private apiUrl = `${API_BASE_URL}/api/auth`;
   
   // Standalone Signals for reactive state
   currentUser = signal<{ username: string; email: string; role: string } | null>(null);

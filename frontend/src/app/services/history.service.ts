@@ -2,6 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { AuthService } from './auth.service';
+import { API_BASE_URL } from '../config';
 
 export interface ReadingHistory {
   id?: string;
@@ -21,7 +22,7 @@ export interface ReadingHistory {
   providedIn: 'root'
 })
 export class HistoryService {
-  private apiUrl = 'http://localhost:8080/api/history';
+  private apiUrl = `${API_BASE_URL}/api/history`;
   
   // Local history cache
   history = signal<ReadingHistory[]>([]);

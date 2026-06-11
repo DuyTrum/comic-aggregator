@@ -7,6 +7,7 @@ import { debounceTime, takeUntil } from 'rxjs/operators';
 import { ComicService, Chapter, Comic } from '../../services/comic.service';
 import { AuthService } from '../../services/auth.service';
 import { HistoryService } from '../../services/history.service';
+import { API_BASE_URL } from '../../config';
 
 @Component({
   selector: 'app-viewer',
@@ -137,7 +138,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
             const pagesList: { url: string; chapterId: string; chapterTitle: string }[] = [];
             for (let i = 0; i < downloadData.totalPages; i++) {
               pagesList.push({
-                url: `http://localhost:8080/api/download/image/${this.chapterId}/${i}`,
+                url: `${API_BASE_URL}/api/download/image/${this.chapterId}/${i}`,
                 chapterId: this.chapterId,
                 chapterTitle: this.currentChapter?.title || ''
               });
@@ -255,7 +256,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
           const pagesList: { url: string; chapterId: string; chapterTitle: string }[] = [];
           for (let i = 0; i < downloadData.totalPages; i++) {
             pagesList.push({
-              url: `http://localhost:8080/api/download/image/${nextChapter.id}/${i}`,
+              url: `${API_BASE_URL}/api/download/image/${nextChapter.id}/${i}`,
               chapterId: nextChapter.id,
               chapterTitle: nextChapter.title
             });

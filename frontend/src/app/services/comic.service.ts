@@ -2,6 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, tap, catchError } from 'rxjs';
 import { AuthService } from './auth.service';
+import { API_BASE_URL } from '../config';
 
 export interface Comic {
   id: string;
@@ -36,10 +37,10 @@ export interface ReadingProgress {
   providedIn: 'root'
 })
 export class ComicService {
-  private proxyUrl = 'http://localhost:8080/api/proxy';
-  private libraryUrl = 'http://localhost:8080/api/library';
-  private historyUrl = 'http://localhost:8080/api/history';
-  private downloadUrl = 'http://localhost:8080/api/download';
+  private proxyUrl = `${API_BASE_URL}/api/proxy`;
+  private libraryUrl = `${API_BASE_URL}/api/library`;
+  private historyUrl = `${API_BASE_URL}/api/history`;
+  private downloadUrl = `${API_BASE_URL}/api/download`;
 
   // Premium mock data for immediate UI rendering & verification
   private mockComics: Comic[] = [
@@ -109,17 +110,17 @@ export class ComicService {
   constructor(private http: HttpClient, private authService: AuthService) {}
 
   getExtensions(): Observable<any[]> {
-    return this.http.get<any[]>('http://localhost:8080/api/extensions').pipe(
+    return this.http.get<any[]>(`${API_BASE_URL}/api/extensions`).pipe(
       catchError(() => of([{ name: 'MangaDex', version: '1.0.0' }]))
     );
   }
 
   loadExtension(url: string): Observable<any> {
-    return this.http.post('http://localhost:8080/api/extensions/load', { url }, { headers: this.authService.getAuthHeaders() });
+    return this.http.post(`${API_BASE_URL}/api/extensions/load`, { url }, { headers: this.authService.getAuthHeaders() });
   }
 
   deleteExtension(id: string): Observable<any> {
-    return this.http.delete(`http://localhost:8080/api/extensions/${id}`, { headers: this.authService.getAuthHeaders() });
+    return this.http.delete(`${API_BASE_URL}/api/extensions/${id}`, { headers: this.authService.getAuthHeaders() });
   }
 
   // Proxy wrapper for images to avoid CORS
@@ -127,7 +128,7 @@ export class ComicService {
     if (originalUrl.startsWith('http://localhost') || originalUrl.startsWith('data:')) {
       return originalUrl;
     }
-    return `http://localhost:8080/api/proxy/image?url=${encodeURIComponent(originalUrl)}`;
+    return `${API_BASE_URL}/api/proxy/image?url=${encodeURIComponent(originalUrl)}`;
   }
 
   // Browse list of comics
